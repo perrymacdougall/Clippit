@@ -79,6 +79,20 @@ const doesUserExist = email => {
 
   return false;
 }
+// DRY funciton to look if email is already registered -----------------------------------------
+const findUserByEmail = email => {
+  for (let userId in users) {
+    let user = users[userId];
+
+    console.log(user.email)
+
+    if (user.email.toLowerCase() === email.toLowerCase()) {
+      return user;
+    }
+  }
+
+  return null;
+}
 
 // This generates the randoms string for both the tiny app and userID---------------------------
 function generateRandomString () {
@@ -117,6 +131,35 @@ app.post('/register', (req, res) => {
     res.redirect('/');
   }
 });
+
+// LOG IN -----------------------------------------------------------------------------------
+
+app.get('/login', (_req, res) => {
+  res.render('login.ejs');
+});
+
+app.post('/login', (req, res) => {
+  const email = req.body.email;
+
+  if (!doesUserExist(email)) {
+    res.status(403).send('User cannot be found');
+  } else {
+    const user = findUserByEmail(email)
+    const password = req.body.password;
+    // const hashedPassword = user.password;
+
+    if (password == user.password) {
+    // if (bcrypt.compareSync(password, hashedPassword)) {
+      // req.session.user_id = user.id;
+
+      // to redirect to the page which shows his newly created tiny URL
+      res.redirect('/') 
+    } else {
+      res.status(403).send('Password incorrect')
+    }
+  }
+});
+
 
 
 
