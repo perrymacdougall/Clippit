@@ -1,0 +1,5 @@
+"globals": {
+  "$": false,
+  "jQuery": false,
+  esversion: 6
+}
