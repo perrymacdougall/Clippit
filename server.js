@@ -14,7 +14,17 @@ const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
 
-// const cookieSession = require(‘cookie-session’);
+const cookieSession = require('cookie-session');
+app.use(
+  cookieSession({
+    name: 'session',
+    keys: ['lighthouse-labs'],
+    // Cookie Options
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  })
+);
+
+
 const bcrypt = require('bcrypt');
 
 // Seperated Routes for each Resource
@@ -27,12 +37,6 @@ app.use(morgan('dev'));
 
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
-
-
-// app.use(cookieSession({
-//   name: ‘session’,
-//   keys: [“Resource”, “Wall”],
-// }));
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -55,8 +59,8 @@ app.get("/", (req, res) => {
 const users = {
   userRandomID: {
     id: 'aJ48lW',
-    email: 'user@example.com',
-    password: 'purple-monkey-dinosaur'
+    email: 'user@123.com',
+    password: '123'
   },
   user2RandomID: {
     id: 'user2RandomID',
@@ -76,9 +80,9 @@ const doesUserExist = email => {
       return true;
     }
   }
-
   return false;
 }
+
 // DRY funciton to look if email is already registered -----------------------------------------
 const findUserByEmail = email => {
   for (let userId in users) {
@@ -90,7 +94,6 @@ const findUserByEmail = email => {
       return user;
     }
   }
-
   return null;
 }
 
@@ -126,9 +129,12 @@ app.post('/register', (req, res) => {
     // insert new user to the users object
     users[id] = newUser;
     // save the user id in a session
+    // req.session.user_id = users.id;
 
-    console.log(users)
-    res.redirect('/');
+    req.session.user_id = id;
+
+    console.log("id is: ", id)
+    res.redirect('/resources');
   }
 });
 
@@ -144,25 +150,47 @@ app.post('/login', (req, res) => {
   if (!doesUserExist(email)) {
     res.status(403).send('User cannot be found');
   } else {
+    
     const user = findUserByEmail(email)
+   
     const password = req.body.password;
     // const hashedPassword = user.password;
 
     if (password == user.password) {
     // if (bcrypt.compareSync(password, hashedPassword)) {
-      // req.session.user_id = user.id;
+      req.session.user_id = user.id;
 
       // to redirect to the page which shows his newly created tiny URL
-      res.redirect('/') 
+      res.redirect('/resources') 
     } else {
       res.status(403).send('Password incorrect')
     }
   }
 });
 
+// GET resources----------------------------------------------------------------------
+app.get('/resources', (req, res) => {
+  let user_id = req.session.user_id;
 
+  // let user = users[user_id];
 
+  let user = user_id;
 
+  if (!user) {
+    // if they are not logged in, they can not continue
+    res.redirect('/login');
+  }
+//if they are logged in:
+  let templateVars = { user };
+  res.render('resources.ejs', templateVars);
+});
+
+// This is for LOG OUT ---------------------------------------------------------------
+app.post('/logout', (req, res) => {
+  req.session = null;
+  // user = null;
+  res.redirect('/login');
+});
 
 
 
