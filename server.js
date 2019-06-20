@@ -120,6 +120,8 @@ app.post('/register', (req, res) => {
   } else {
     // create new user with random id
     const id = generateRandomString();
+
+
     const newUser = {
       id,
       email,
@@ -140,32 +142,42 @@ app.post('/register', (req, res) => {
 
 // LOG IN -----------------------------------------------------------------------------------
 
-app.get('/login', (_req, res) => {
+app.get('/login', (req, res) => {
   res.render('login.ejs');
 });
 
 app.post('/login', (req, res) => {
+  // Input from user
   const email = req.body.email;
+  const typedPassword = req.body.password;
+  console.log(email);
 
-  if (!doesUserExist(email)) {
-    res.status(403).send('User cannot be found');
-  } else {
-    
-    const user = findUserByEmail(email)
-   
-    const password = req.body.password;
-    // const hashedPassword = user.password;
+  knex.select('id', 'email', 'password').from('users')
+      .where('email', '=', email)
+      .asCallback(function(err, rows) {
+        if (err) {
+          // return console.error(err);
+        } else {
+          if (rows.length == 0) {
+            res.status(403).send('User cannot be found');
+          } else {
+            //
+            if (typedPassword == rows[0].password) {
+            // if (bcrypt.compareSync(password, hashedPassword)) {
+              req.session.user_id = rows[0].id;
 
-    if (password == user.password) {
-    // if (bcrypt.compareSync(password, hashedPassword)) {
-      req.session.user_id = user.id;
+              // to redirect to the page which shows his newly created tiny URL
+              res.redirect('/resources')
+            } else {
+              res.status(403).send('Password incorrect')
+            }
 
-      // to redirect to the page which shows his newly created tiny URL
-      res.redirect('/resources') 
-    } else {
-      res.status(403).send('Password incorrect')
-    }
-  }
+          }
+
+        }
+      // }
+    })
+
 });
 
 // GET resources----------------------------------------------------------------------
