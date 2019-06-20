@@ -28,9 +28,26 @@
 
         <h4> Make this page show My Uploaded and Liked Resources: </h4>
         <br>
-        <%= user %>
-        <%= user.password %>
 
+        <h2>Saved Resources</h2>
+        <% for(let row in rows) { %>
+          <a href="<%= rows[row].url; %>" target="_blank">
+            <%= rows[row].title; %>
+          </a>
+
+          <%= rows[row].description; %>
+          <br>
+        <% } %>
+
+        <h2>Liked Resources</h2>
+        <% for(let likerow in likerows) { %>
+          <a href="<%= likerows[likerow].url; %>" target="_blank">
+            <%= likerows[likerow].title; %>
+          </a>
+
+          <%= likerows[likerow].description; %>
+          <br>
+        <% } %>
 
     <br>
     <br>
