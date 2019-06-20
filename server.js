@@ -2,17 +2,17 @@
 
 require('dotenv').config();
 
-const PORT        = process.env.PORT || 8080;
-const ENV         = process.env.ENV || "development";
-const express     = require("express");
-const bodyParser  = require("body-parser");
-const sass        = require("node-sass-middleware");
-const app         = express();
+const PORT = process.env.PORT || 8080;
+const ENV = process.env.ENV || "development";
+const express = require("express");
+const bodyParser = require("body-parser");
+const sass = require("node-sass-middleware");
+const app = express();
 
-const knexConfig  = require("./knexfile");
-const knex        = require("knex")(knexConfig[ENV]);
-const morgan      = require('morgan');
-const knexLogger  = require('knex-logger');
+const knexConfig = require("./knexfile");
+const knex = require("knex")(knexConfig[ENV]);
+const morgan = require('morgan');
+const knexLogger = require('knex-logger');
 
 const cookieSession = require('cookie-session');
 app.use(
@@ -39,7 +39,9 @@ app.use(morgan('dev'));
 app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
@@ -56,18 +58,18 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-const users = {
-  userRandomID: {
-    id: 'aJ48lW',
-    email: 'user@123.com',
-    password: '123'
-  },
-  user2RandomID: {
-    id: 'user2RandomID',
-    email: 'user2@example.com',
-    password: 'dishwasher-funk'
-  }
-};
+// const users = {
+//   userRandomID: {
+//     id: 'aJ48lW',
+//     email: 'user@123.com',
+//     password: '123'
+//   },
+//   user2RandomID: {
+//     id: 'user2RandomID',
+//     email: 'user2@example.com',
+//     password: 'dishwasher-funk'
+//   }
+// };
 
 // DRY function to look up if email exists ---------------------------------------------------------
 const doesUserExist = email => {
@@ -98,11 +100,49 @@ const findUserByEmail = email => {
 }
 
 // This generates the randoms string for both the tiny app and userID---------------------------
-function generateRandomString () {
+function generateRandomString() {
   return Math.floor((1 + Math.random()) * 0x10000000).toString(36);
 }
 
 // Registration page ----------------------------------------------------------------------------
+// app.get('/register', (req, res) => {
+//   res.render('register.ejs')
+// });
+
+// app.post('/register', (req, res) => {
+//   const email = req.body.email;
+//   const password = req.body.password;
+
+//   if (email === '' || password === '') {
+//     res.status(400);
+//     res.send('Status code error ;p Email or Password can not be empty');
+//   } else if (doesUserExist(email)) {
+//     res.status(400);
+//     res.send('Status code error ;p User already exists');
+//   } else {
+//     // create new user with random id
+//     const id = generateRandomString();
+
+
+//     const newUser = {
+//       id,
+//       email,
+//       password
+//     };
+
+//     // insert new user to the users object
+//     users[id] = newUser;
+//     // save the user id in a session
+
+
+//     req.session.user_id = id;
+
+//     console.log("id is: ", id)
+//     res.redirect('/resources');
+//   }
+// });
+
+
 app.get('/register', (req, res) => {
   res.render('register.ejs')
 });
@@ -110,35 +150,45 @@ app.get('/register', (req, res) => {
 app.post('/register', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
+  const name = req.body.name;
 
   if (email === '' || password === '') {
     res.status(400);
     res.send('Status code error ;p Email or Password can not be empty');
-  } else if (doesUserExist(email)) {
-    res.status(400);
-    res.send('Status code error ;p User already exists');
+
   } else {
-    // create new user with random id
-    const id = generateRandomString();
 
+    knex.select('id', 'email', 'password').from('users')
+      .where('email', '=', email)
+      .asCallback(function (err, rows) {
+        if (err) {
+          return console.error(err);
+        } else {
+          console.log("rows is: ", rows)
 
-    const newUser = {
-      id,
-      email,
-      password
-    };
+          if (rows.length > 0) {
+            res.status(403).send('User already exists, please login')
+          } else if (rows.length == 0) {
 
-    // insert new user to the users object
-    users[id] = newUser;
-    // save the user id in a session
-    // req.session.user_id = users.id;
-
-    req.session.user_id = id;
-
-    console.log("id is: ", id)
-    res.redirect('/resources');
+            knex('users')
+              .returning("id")
+              .insert({
+                name: name,
+                email: email,
+                password: password
+              })
+              .then((users) => {
+                // if (err) return console.error(err);
+                console.log("registered: ", users);
+                req.session.user_id = users[0];
+                res.redirect('/resources');
+              })
+          }
+        }
+      })
   }
 });
+
 
 // LOG IN -----------------------------------------------------------------------------------
 
@@ -153,28 +203,28 @@ app.post('/login', (req, res) => {
   console.log(email);
 
   knex.select('id', 'email', 'password').from('users')
-      .where('email', '=', email)
-      .asCallback(function(err, rows) {
-        if (err) {
-          // return console.error(err);
+    .where('email', '=', email)
+    .asCallback(function (err, rows) {
+      if (err) {
+        // return console.error(err);
+      } else {
+        if (rows.length == 0) {
+          res.status(403).send('User cannot be found');
         } else {
-          if (rows.length == 0) {
-            res.status(403).send('User cannot be found');
-          } else {
-            //
-            if (typedPassword == rows[0].password) {
+          //
+          if (typedPassword == rows[0].password) {
             // if (bcrypt.compareSync(password, hashedPassword)) {
-              req.session.user_id = rows[0].id;
+            req.session.user_id = rows[0].id;
 
-              // to redirect to the page which shows his newly created tiny URL
-              res.redirect('/resources')
-            } else {
-              res.status(403).send('Password incorrect')
-            }
-
+            // to redirect to the page which shows his newly created tiny URL
+            res.redirect('/resources')
+          } else {
+            res.status(403).send('Password incorrect')
           }
 
         }
+
+      }
       // }
     })
 });
@@ -189,10 +239,12 @@ app.get('/resources', (req, res) => {
 
   if (!user) {
     // if they are not logged in, they can not continue
-    res.redirect('/login');
+    return res.redirect('/login');
   }
-//if they are logged in:
-  let templateVars = { user };
+  //if they are logged in:
+  let templateVars = {
+    user
+  };
   res.render('resources.ejs', templateVars);
 });
 
