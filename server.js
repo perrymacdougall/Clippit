@@ -177,7 +177,6 @@ app.post('/login', (req, res) => {
         }
       // }
     })
-
 });
 
 // GET resources----------------------------------------------------------------------
@@ -195,6 +194,18 @@ app.get('/resources', (req, res) => {
 //if they are logged in:
   let templateVars = { user };
   res.render('resources.ejs', templateVars);
+});
+
+// GET MY resources----------------------------------------------------------------------
+app.get('/resources/me', (req, res) => {
+  let user = req.session.user_id;
+
+  if (!user) {
+    res.redirect('/login');
+  }
+
+  let templateVars = { user };
+  res.render('resources_me', templateVars);
 });
 
 // This is for LOG OUT ---------------------------------------------------------------
