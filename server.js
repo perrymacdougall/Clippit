@@ -196,16 +196,28 @@ app.get('/resources', (req, res) => {
   res.render('resources.ejs', templateVars);
 });
 
-// GET MY resources----------------------------------------------------------------------
+// GET ***MY*** resources----------------------------------------------------------------------
 app.get('/resources/me', (req, res) => {
   let user = req.session.user_id;
 
   if (!user) {
     res.redirect('/login');
-  }
+  } else {
+    console.log("user is", user);
 
-  let templateVars = { user };
-  res.render('resources_me', templateVars);
+    knex.select('title', 'description', 'url', 'resource_id')
+      .from('resources')
+      .where('user_id', '=', user)
+      .asCallback(function(err, rows) {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log(rows);
+          let templateVars = { user };
+          res.render('resources_me', templateVars);
+        }
+      });
+  }
 });
 
 // This is for LOG OUT ---------------------------------------------------------------
