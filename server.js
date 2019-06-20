@@ -213,8 +213,23 @@ app.get('/resources/me', (req, res) => {
           console.log(err);
         } else {
           console.log(rows);
-          let templateVars = { user };
-          res.render('resources_me', templateVars);
+
+          knex.select('l.like_id', 'r.resource_id', 'r.title', 'r.description', 'r.url')
+            .from('likes AS l')
+            .innerJoin('resources AS r', 'l.resource_id', '=', 'r.resource_id')
+            .where('l.user_id', '=', user)
+            .asCallback(function(err, likerows){
+              if(err) {
+                console.log(err);
+              } else {
+                console.log(likerows);
+
+                let templateVars = { user, rows, likerows };
+                res.render('resources_me', templateVars);
+
+              }
+            })
+
         }
       });
   }
