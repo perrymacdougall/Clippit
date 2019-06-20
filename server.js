@@ -150,9 +150,9 @@ app.post('/login', (req, res) => {
   if (!doesUserExist(email)) {
     res.status(403).send('User cannot be found');
   } else {
-    
+
     const user = findUserByEmail(email)
-   
+
     const password = req.body.password;
     // const hashedPassword = user.password;
 
@@ -161,7 +161,7 @@ app.post('/login', (req, res) => {
       req.session.user_id = user.id;
 
       // to redirect to the page which shows his newly created tiny URL
-      res.redirect('/resources') 
+      res.redirect('/resources')
     } else {
       res.status(403).send('Password incorrect')
     }
@@ -183,6 +183,18 @@ app.get('/resources', (req, res) => {
 //if they are logged in:
   let templateVars = { user };
   res.render('resources.ejs', templateVars);
+});
+
+// GET MY resources----------------------------------------------------------------------
+app.get('/resources/me', (req, res) => {
+  let user = req.session.user_id;
+
+  if (!user) {
+    res.redirect('/login');
+  }
+
+  let templateVars = { user };
+  res.render('resources_me', templateVars);
 });
 
 // This is for LOG OUT ---------------------------------------------------------------
