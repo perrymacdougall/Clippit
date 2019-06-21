@@ -14,6 +14,8 @@ const knex = require("knex")(knexConfig[ENV]);
 const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 
+const dbQueries = require('./public/scripts/resources.js');
+
 const cookieSession = require('cookie-session');
 app.use(
   cookieSession({
@@ -237,12 +239,18 @@ app.get('/resources', (req, res) => {
     // if they are not logged in, they can not continue
     return res.redirect('/login');
   }
-  //if they are logged in they can continue:
-  let templateVars = {
-    user,
-    name
-  };
-  res.render('resources.ejs', templateVars);
+
+  dbQueries.resources(function(err, rows) {
+
+    //if they are logged in they can continue:
+    let templateVars = {
+      user,
+      name,
+      rows
+    };
+    res.render('resources.ejs', templateVars);
+  });
+
 });
 
 // GET ***MY*** resources----------------------------------------------------------------------
