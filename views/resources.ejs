@@ -6,6 +6,8 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
   <title>Clippit</title>
 </head>
 
@@ -28,17 +30,17 @@
 
       <h2>Resources</h2>
         <% for(let row in rows) { %>
-
+        <a href="/resources/<%= rows[row].resource_id %>">
           <div class="resource">
-            <img class="thumbnail" />
-            <h6>Name of resource will go here</p>
-            <a href="<%= rows[row].url; %>" target="_blank"><%= rows[row].title; %></a>
+            <div class="title-area">
+              <h4><%= rows[row].title; %></h4>
+            </div>
             <p><%= rows[row].description; %></p>
+            <a href="<%= rows[row].url; %>" target="_blank"><%= rows[row].title; %></a>
           </div>
+        </a>
 
         <% } %>
-
-
 
 
 </body>
