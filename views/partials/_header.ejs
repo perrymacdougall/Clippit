@@ -3,7 +3,7 @@
 
 
 <header>
- 
+
 
   <h1> Clippit </h1>
 
@@ -28,6 +28,12 @@
       </div>
     </form>
 
+    <form class="form-inline" action="/users/me" method="GET">
+      <div class="form-group mb-2">
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+      </div>
+    </form>
+
       <em>Hello <%=name%> !</em>
   <% } else { %>
 
@@ -38,9 +44,9 @@
 <!-- Not yet a member? -->
 <strong><a href="/register">Register</a></strong>
 
-  <% } %> 
-      
-      
+  <% } %>
+
+
 <br>
 
 
