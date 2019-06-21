@@ -58,21 +58,8 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("index");
+  res.redirect('resources');
 });
-
-// const users = {
-//   userRandomID: {
-//     id: 'aJ48lW',
-//     email: 'user@123.com',
-//     password: '123'
-//   },
-//   user2RandomID: {
-//     id: 'user2RandomID',
-//     email: 'user2@example.com',
-//     password: 'dishwasher-funk'
-//   }
-// };
 
 // DRY function to look up if email exists ---------------------------------------------------------
 const doesUserExist = email => {
