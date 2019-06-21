@@ -9,6 +9,10 @@
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
 
+ <!-- This is for the icon image library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.css" />
+
+
   <title>Clippit</title>
 </head>
 
@@ -22,16 +26,39 @@
 <body>
     <!-- Add EJS code here -->
 
+
+
+       <h2>Resource</h2>
+       <div class="resource">
+
        <h2>Resource: <%= rows[0].title; %></h2>
+
         <form action="/resource/:id" method="GET">
-          <div class="resource">
             <div class="title-area">
               <h4><%= rows[0].title; %></h4>
             </div>
             <p><%= rows[0].description; %></p>
             <a href="<%= rows[0].url; %>" target="_blank"><%= rows[0].title; %></a>
-          </div>
+            
+            
+            <p>
+              <i class="far fa-heart"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-comment-dots"></i>
+            </p>
+            <!-- <form id="send-tweet" method="POST" action="/tweets/"> -->
+              <textarea name="text" placeholder="What opinion about this resource do you want the world to know?"></textarea>
+              <!-- <p class="tweetExceed"> Text must not exceed 140 characters </p> -->
+              <input type="submit" value="Tweet">
+              <!-- <span class="counter">140</span> -->
+            </form>
+
+
+
+
+
         </form>
+      </div>
 
 
 </body>
