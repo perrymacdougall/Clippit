@@ -6,6 +6,9 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+
   <title>Clippit</title>
 </head>
 
@@ -30,10 +33,10 @@
         <form action="/resource/:id" method="GET">
           <div class="resource">
             <div class="title-area">
-              <h4><%= //rows[row].title; %></h4>
+              <h4><%= rows[0].title; %></h4>
             </div>
-            <p><%= //rows[row].description; %></p>
-            <a href="<%= //rows[row].url; %>" target="_blank"><%= //rows[row].title; %></a>
+            <p><%= rows[0].description; %></p>
+            <a href="<%= rows[0].url; %>" target="_blank"><%= rows[0].title; %></a>
           </div>
         </form>
 

@@ -6,10 +6,10 @@ const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 
 module.exports = {
- singleResource(cb) {
+ singleResource(id, cb) {
       knex.select('title', 'description', 'url', 'resource_id')
           .from('resources')
-          // .where('resource_id', '=', )
+          .where('resource_id', '=', id)
           .asCallback(cb)
   }
 }

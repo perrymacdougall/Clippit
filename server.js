@@ -238,7 +238,6 @@ app.get('/resources', (req, res) => {
 
   dbQueries.resources(function(err, rows) {
 
-  console.log(rows);
     //if they are logged in they can continue:
     let templateVars = {
       user,
@@ -295,12 +294,14 @@ app.get('/resources/me', (req, res) => {
 app.get('/resources/:id', (req, res) => {
   let user_id = req.session.user_id;
   let user_name = req.session.user_name;
+  let idFromURL = req.params.id;
 
   let user = user_id;
   let name = user_name;
 
-  dbSingleQuery.singleResource(function(err, rows) {
+  dbSingleQuery.singleResource(idFromURL, function(err, rows) {
 
+  console.log("rows is: ", rows);
     let templateVars = {
       user,
       name,
