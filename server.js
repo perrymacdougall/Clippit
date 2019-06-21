@@ -329,7 +329,7 @@ app.post('/resources/new', (req, res) => {
     console.log('user, title, URL, description', user, title, URL, description);
     knex('resources')
     .insert({
-      title: title, 
+      title: title,
       url: URL,
       description: description,
       user_id: user
@@ -337,7 +337,7 @@ app.post('/resources/new', (req, res) => {
     .then(() => {
       res.redirect('/resources/me');
     })
-  }  
+  }
 })
 
 
@@ -352,7 +352,28 @@ app.get('/users/me', (req, res) => {
   }
 });
 
+app.post('/users/me', (req, res) => {
+  let user = req.session.user_id;
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = req.body.password;
 
+  if (!user) {
+    res.redirect('/login');
+  } else { //TODO ADD DATABASE CALLS
+    // knex('resources')
+    // .insert({
+    //   title: title,
+    //   url: URL,
+    //   description: description,
+    //   user_id: user
+    // })
+    // .then(() => {
+    //   res.redirect('/resources/me');
+    // })
+    res.redirect('/resources/me');
+  }
+})
 
 
 
