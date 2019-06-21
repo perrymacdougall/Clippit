@@ -240,7 +240,7 @@ app.get('/resources', (req, res) => {
   //if they are logged in they can continue:
   let templateVars = {
     user,
-    name  
+    name
   };
   res.render('resources.ejs', templateVars);
 });
@@ -248,6 +248,7 @@ app.get('/resources', (req, res) => {
 // GET ***MY*** resources----------------------------------------------------------------------
 app.get('/resources/me', (req, res) => {
   let user = req.session.user_id;
+  let name = req.session.user_name;
 
   if (!user) {
     res.redirect('/login');
@@ -273,7 +274,7 @@ app.get('/resources/me', (req, res) => {
               } else {
                 console.log(likerows);
 
-                let templateVars = { user, rows, likerows };
+                let templateVars = { user, name, rows, likerows };
                 res.render('resources_me', templateVars);
 
               }
