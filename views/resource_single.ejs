@@ -26,15 +26,13 @@
 <body>
     <!-- Add EJS code here -->
 
-    <a href="<"></a>
 
-
-        <h4>Clippit is here!!!</h4>
-
-       This is the page for ONE resource where you can comment, rate, etc.
 
        <h2>Resource</h2>
        <div class="resource">
+
+       <h2>Resource: <%= rows[0].title; %></h2>
+
         <form action="/resource/:id" method="GET">
             <div class="title-area">
               <h4><%= rows[0].title; %></h4>
