@@ -39,10 +39,10 @@
             </div>
             <p><%= rows[0].description; %></p>
             <a href="<%= rows[0].url; %>" target="_blank"><%= rows[0].title; %></a>
-            
-            
+
+
             <p>
-              <i class="far fa-heart"></i>
+              <i class="far fa-heart" onclick="likeFunction()"></i>
               <i class="far fa-star"></i>
               <i class="far fa-comment-dots"></i>
             </p>
@@ -60,7 +60,7 @@
         </form>
       </div>
 
-
+<script src="/public/scripts/app.js"></script>
 </body>
 
 

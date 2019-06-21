@@ -1,6 +1,5 @@
 exports.seed = function(knex, Promise) {
-  return Promise.all([
-    knex('ratings').insert([
+  return knex('ratings').insert([
       {
         rating: 5,
         user_id: 1,
@@ -21,8 +20,6 @@ exports.seed = function(knex, Promise) {
         user_id: 3,
         resource_id: 3
       }
-    ])
-
-  ]);
+    ]);
 
 };
