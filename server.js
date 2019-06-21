@@ -15,6 +15,7 @@ const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 
 const dbQueries = require('./public/scripts/resources.js');
+const dbSingleQuery = require('./public/scripts/singleResource.js');
 
 const cookieSession = require('cookie-session');
 app.use(
@@ -235,13 +236,9 @@ app.get('/resources', (req, res) => {
   let user = user_id;
   let name = user_name;
 
-  if (!user) {
-    // if they are not logged in, they can not continue
-    return res.redirect('/login');
-  }
-
   dbQueries.resources(function(err, rows) {
 
+  console.log(rows);
     //if they are logged in they can continue:
     let templateVars = {
       user,
@@ -293,6 +290,27 @@ app.get('/resources/me', (req, res) => {
   }
 });
 
+// GET single resource----------------------------------------------------------------------
+
+app.get('/resources/:id', (req, res) => {
+  let user_id = req.session.user_id;
+  let user_name = req.session.user_name;
+
+  let user = user_id;
+  let name = user_name;
+
+  dbSingleQuery.singleResource(function(err, rows) {
+
+    let templateVars = {
+      user,
+      name,
+      rows
+      // resource_id
+    };
+    res.render('resource_single.ejs', templateVars);
+  })
+});
+
 // This is for LOG OUT ---------------------------------------------------------------
 app.post('/logout', (req, res) => {
   req.session = null;
@@ -329,7 +347,7 @@ app.post('/resources/new', (req, res) => {
     console.log('user, title, URL, description', user, title, URL, description);
     knex('resources')
     .insert({
-      title: title, 
+      title: title,
       url: URL,
       description: description,
       user_id: user
@@ -337,7 +355,7 @@ app.post('/resources/new', (req, res) => {
     .then(() => {
       res.redirect('/resources/me');
     })
-  }  
+  }
 })
 
 
