@@ -1,5 +1,6 @@
 body {
   background-color: #EEE;
+  margin: 5em;
 
   h1 {
     color: #244751;
@@ -7,9 +8,10 @@ body {
 }
 
 .resource {
+  margin: auto;
   border: 1px solid black;
   display: inline-block;
-  width: 30%;
+  width: 60%;
   vertical-align: top;
 }
 
