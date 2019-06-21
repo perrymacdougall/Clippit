@@ -1,7 +1,5 @@
 exports.seed = function(knex, Promise) {
-
-  return Promise.all([
-    knex('tags').insert([
+  return knex('tags').insert([
       {
         tag: 'knex',
         resource_id: 1
@@ -18,8 +16,5 @@ exports.seed = function(knex, Promise) {
         tag: 'css',
         resource_id: 4
       }
-    ])
-
-  ]);
-
+    ]);
 };

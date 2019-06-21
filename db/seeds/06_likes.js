@@ -1,6 +1,5 @@
 exports.seed = function(knex, Promise) {
-  return Promise.all([
-    knex('likes').insert([
+  return knex('likes').insert([
       {
         user_id: 1,
         resource_id: 1
@@ -17,6 +16,5 @@ exports.seed = function(knex, Promise) {
         user_id: 2,
         resource_id: 3
       }
-    ])
-  ]);
+    ]);
 };

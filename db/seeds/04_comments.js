@@ -1,6 +1,5 @@
 exports.seed = function(knex, Promise) {
-  return Promise.all([
-    knex('comments').insert([
+    return knex('comments').insert([
       {
         comment: 'Great Resource!',
         user_id: 1,
@@ -21,8 +20,5 @@ exports.seed = function(knex, Promise) {
         user_id: 3,
         resource_id: 3
       }
-    ])
-
-  ]);
-
+    ]);
 };
