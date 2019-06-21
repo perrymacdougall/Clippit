@@ -177,9 +177,6 @@ app.post('/register', (req, res) => {
                 password: password
               })
               .then((users) => {
-                // if (err) return console.error(err);
-                console.log("registered: ", users);
-                console.log("name is: ", name);
 
                 req.session.user_id = users[0];
                 req.session.user_name = name;
@@ -208,7 +205,7 @@ app.post('/login', (req, res) => {
     .where('email', '=', email)
     .asCallback(function (err, rows) {
       if (err) {
-        // return console.error(err);
+        return console.error(err);
       } else {
         if (rows.length == 0) {
           res.status(403).send('User cannot be found');
@@ -218,10 +215,6 @@ app.post('/login', (req, res) => {
             // if (bcrypt.compareSync(password, hashedPassword)) {
             req.session.user_id = rows[0].id;
             req.session.user_name = rows[0].name;
-            // req.session.user_name = users[0].name;
-
-
-            // to redirect to the page which shows his newly created tiny URL
 
             res.redirect('/resources', )
           } else {
@@ -237,8 +230,6 @@ app.get('/resources', (req, res) => {
   let user_id = req.session.user_id;
   let user_name = req.session.user_name;
 
-
-  // let user = users[user_id];
   let user = user_id;
   let name = user_name;
 
@@ -246,13 +237,11 @@ app.get('/resources', (req, res) => {
     // if they are not logged in, they can not continue
     return res.redirect('/login');
   }
-  //if they are logged in:
+  //if they are logged in they can continue:
   let templateVars = {
     user,
     name  
   };
-  console.log("user is: ", user);
-  console.log("name is: ", name);
   res.render('resources.ejs', templateVars);
 });
 
