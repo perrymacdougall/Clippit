@@ -16,6 +16,8 @@ const knexLogger = require('knex-logger');
 
 const dbQueries = require('./public/scripts/resources.js');
 const dbSingleQuery = require('./public/scripts/singleResource.js');
+const dbSearch = require('./public/scripts/search.js');
+
 
 const cookieSession = require('cookie-session');
 app.use(
@@ -219,21 +221,32 @@ app.post('/login', (req, res) => {
 app.get('/resources', (req, res) => {
   let user_id = req.session.user_id;
   let user_name = req.session.user_name;
-
   let user = user_id;
   let name = user_name;
+  let searchQuery = req.query.search;
 
-  dbQueries.resources(function(err, rows) {
-
-    //if they are logged in they can continue:
-    let templateVars = {
-      user,
-      name,
-      rows
-    };
-    res.render('resources.ejs', templateVars);
-  });
-
+  if(searchQuery) {
+    dbSearch.searchResources(searchQuery, function(err, rows) {
+      let templateVars = {
+        user,
+        name,
+        rows
+      };
+      console.log("rows", rows);
+      res.render('resources.ejs', templateVars);
+      console.log("rows.length:", rows.length)
+    }) 
+  } else { 
+    dbQueries.resources(function(err, rows) {
+      //if they are logged in they can continue:
+      let templateVars = {
+        user,
+        name,
+        rows
+      };
+      res.render('resources.ejs', templateVars);
+    });
+  }
 });
 
 // GET ***MY*** resources----------------------------------------------------------------------
