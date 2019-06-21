@@ -164,23 +164,22 @@ app.post('/register', (req, res) => {
         if (err) {
           return console.error(err);
         } else {
-          console.log("rows is: ", rows)
 
           if (rows.length > 0) {
             res.status(403).send('User already exists, please login')
           } else if (rows.length == 0) {
 
             knex('users')
-              .returning("id")
+              .returning("id", "name")
               .insert({
                 name: name,
                 email: email,
                 password: password
               })
               .then((users) => {
-                // if (err) return console.error(err);
-                console.log("registered: ", users);
+
                 req.session.user_id = users[0];
+                req.session.user_name = name;
                 res.redirect('/resources');
               })
           }
@@ -202,11 +201,11 @@ app.post('/login', (req, res) => {
   const typedPassword = req.body.password;
   console.log(email);
 
-  knex.select('id', 'email', 'password').from('users')
+  knex.select('id', 'email', 'password', 'name').from('users')
     .where('email', '=', email)
     .asCallback(function (err, rows) {
       if (err) {
-        // return console.error(err);
+        return console.error(err);
       } else {
         if (rows.length == 0) {
           res.status(403).send('User cannot be found');
@@ -215,35 +214,33 @@ app.post('/login', (req, res) => {
           if (typedPassword == rows[0].password) {
             // if (bcrypt.compareSync(password, hashedPassword)) {
             req.session.user_id = rows[0].id;
+            req.session.user_name = rows[0].name;
 
-            // to redirect to the page which shows his newly created tiny URL
-            res.redirect('/resources')
+            res.redirect('/resources', )
           } else {
             res.status(403).send('Password incorrect')
           }
-
         }
-
       }
-      // }
     })
 });
 
 // GET resources----------------------------------------------------------------------
 app.get('/resources', (req, res) => {
   let user_id = req.session.user_id;
-
-  // let user = users[user_id];
+  let user_name = req.session.user_name;
 
   let user = user_id;
+  let name = user_name;
 
   if (!user) {
     // if they are not logged in, they can not continue
     return res.redirect('/login');
   }
-  //if they are logged in:
+  //if they are logged in they can continue:
   let templateVars = {
-    user
+    user,
+    name  
   };
   res.render('resources.ejs', templateVars);
 });
