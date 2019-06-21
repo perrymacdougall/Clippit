@@ -341,9 +341,16 @@ app.post('/resources/new', (req, res) => {
 })
 
 
-
-
-
+app.get('/users/me', (req, res) => {
+  let user = req.session.user_id;
+  let name = req.session.user_name;
+  if (!user) {
+    res.redirect('/login');
+  } else {
+    let templateVars = { user, name };
+    res.render('users_me', templateVars);
+  }
+});
 
 
 
