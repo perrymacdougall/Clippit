@@ -16,8 +16,9 @@ const knexLogger = require('knex-logger');
 
 const dbQueries = require('./public/scripts/resources.js');
 const dbSingleQuery = require('./public/scripts/singleResource.js');
-const dbSearch = require('./public/scripts/search.js');
 
+const dbLikeFunction = require('./public/scripts/likeFunction.js');
+const dbSearch = require('./public/scripts/search.js');
 
 const cookieSession = require('cookie-session');
 app.use(
@@ -393,6 +394,20 @@ app.post('/users/me', (req, res) => {
     res.redirect('/resources/me');
   }
 })
+
+app.get('/likes', (req, res) => {
+  let incomingLike = req.session.user_id;
+
+  // if (!user) {
+  //   res.redirect('/login');
+  // } else {
+
+    dbLikeFunction.likeFunction(function(err, rows) {
+      res.redirect('/resources');
+    });
+
+  // }
+});
 
 
 
