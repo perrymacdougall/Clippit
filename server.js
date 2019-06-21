@@ -170,7 +170,7 @@ app.post('/register', (req, res) => {
           } else if (rows.length == 0) {
 
             knex('users')
-              .returning("id")
+              .returning("id", "name")
               .insert({
                 name: name,
                 email: email,
@@ -179,8 +179,10 @@ app.post('/register', (req, res) => {
               .then((users) => {
                 // if (err) return console.error(err);
                 console.log("registered: ", users);
+                console.log("name is: ", name);
+
                 req.session.user_id = users[0];
-                req.session.user_name = users[0].name;
+                req.session.user_name = name;
                 res.redirect('/resources');
               })
           }
@@ -216,6 +218,8 @@ app.post('/login', (req, res) => {
             // if (bcrypt.compareSync(password, hashedPassword)) {
             req.session.user_id = rows[0].id;
             req.session.user_name = rows[0].name;
+            // req.session.user_name = users[0].name;
+
 
             // to redirect to the page which shows his newly created tiny URL
 
@@ -232,6 +236,7 @@ app.post('/login', (req, res) => {
 app.get('/resources', (req, res) => {
   let user_id = req.session.user_id;
   let user_name = req.session.user_name;
+
 
   // let user = users[user_id];
   let user = user_id;
