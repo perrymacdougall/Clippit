@@ -293,8 +293,44 @@ app.post('/logout', (req, res) => {
 });
 
 
+app.get('/resources/new', (req, res) => {
+  let user = req.session.user_id;
+  let name = req.session.user_name;
+  if (!user) {
+    res.redirect('/login');
+  } else {
+    console.log("user is", user);
+    let templateVars = { user, name };
+    res.render('resources_new', templateVars);
+  }
+});
 
+app.post('/resources/new', (req, res) => {
+  let user = req.session.user_id;
+  const title = req.body.title;
+  const URL = req.body.URL;
+  const description = req.body.description;
+  console.log("user: ", user);
+  console.log("title: ", title);
+  console.log("URL: ", URL);
+  console.log("description: ", description);
 
+  if (!user) {
+    res.redirect('/login');
+  } else {
+    console.log('user, title, URL, description', user, title, URL, description);
+    knex('resources')
+    .insert({
+      title: title, 
+      url: URL,
+      description: description,
+      user_id: user
+    })
+    .then(() => {
+      res.redirect('/resources/me');
+    })
+  }  
+})
 
 
 
