@@ -22,6 +22,7 @@ const dbSearch = require('./public/scripts/search.js');
 const dbUpdateUser = require('./public/scripts/updateUser.js');
 const dbLookupUserByID = require('./public/scripts/lookupUserByID.js');
 const dbAddTag = require('./public/scripts/addTag.js');
+const dbAddComment = require('./public/scripts/addComment.js')
 
 const cookieSession = require('cookie-session');
 app.use(
@@ -438,11 +439,20 @@ app.post('/tags', (req, res) => {
     res.redirect('/resources/' + tagResourceId);
   })
 
-
-
 });
 
+app.post('/comments', (req, res) => {
+  let user_id = req.session.user_id;
+  let commentContent = req.body.comment;
+  let commentResourceId = req.body.resource_id;
 
+  let commentInfo = { comment: commentContent, user_id: user_id, resource_id: commentResourceId };
+
+  dbAddComment.addComment(commentInfo, function(err, info) {
+    res.redirect('/resources/' + commentResourceId);
+  })
+
+});
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
