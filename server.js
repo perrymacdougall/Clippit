@@ -54,9 +54,14 @@ app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
   debug: true,
+  force: true,
   outputStyle: 'expanded'
 }));
+
+// Routes for scripts
 app.use(express.static("public"));
+app.use("/scripts", express.static(__dirname + "public"));
+app.use("/vendor", express.static(__dirname + "public"));
 
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
