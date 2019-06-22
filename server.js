@@ -405,14 +405,17 @@ app.post('/users/me', (req, res) => {
   }
 })
 
-app.get('/likes', (req, res) => {
-  let incomingLike = req.session.user_id;
+app.post('/likes', (req, res) => {
+  let user_id = req.session.user_id;
+
+      console.log("something unique", req.body.resource_id);
 
   // if (!user) {
   //   res.redirect('/login');
   // } else {
-
-    dbLikeFunction.likeFunction(function(err, rows) {
+    // This inserts into db
+    let likeInfo = { resource_id: req.body.resource_id, user_id: user_id };
+    dbLikeFunction.likeFunction(likeInfo, function(err, rows) {
       res.redirect('/resources');
     });
 

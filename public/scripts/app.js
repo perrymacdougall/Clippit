@@ -10,15 +10,23 @@
 $(document).ready(function() {
 
   //jQuery call for like button
-  $('#likes').on('submit', function(event) {
-    event.preventDefaut();
-    console.log('I have been clicked!');
+  $('.fa-heart').on('click', function(event) {
+    event.preventDefault();
+    let firstStep = window.location.pathname;
+    let resource_id = firstStep.replace(/\/resources\//g, "")
+
     $.ajax({
       method: "POST",
-      url: "/likes"
+      url: "/likes",
+      data: { resource_id: resource_id }
     }).done(
       console.log('I have sent a like to the db')
     );
+
+    // $.post('/likes', { resource_id }),
+    //   function(result){
+    //     console.log("Success");
+    //   }
 
   });
 
