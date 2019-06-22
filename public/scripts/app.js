@@ -20,7 +20,7 @@ $(document).ready(function() {
       url: "/likes",
       data: { resource_id: resource_id }
     }).done(
-      console.log('I have sent a like to the db')
+      $('#numLikes').html(parseInt($('#numLikes').text()) + 1)
     );
 
   });
