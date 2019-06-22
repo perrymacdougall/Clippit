@@ -24,6 +24,8 @@ const dbLookupUserByID = require('./public/scripts/lookupUserByID.js');
 const dbAddTag = require('./public/scripts/addTag.js');
 const dbAddComment = require('./public/scripts/addComment.js');
 const dbAddRating = require('./public/scripts/addRating.js');
+const dbCountLikes = require('./public/scripts/countLikes.js');
+
 
 const cookieSession = require('cookie-session');
 app.use(
@@ -350,14 +352,18 @@ app.get('/resources/:id', (req, res) => {
   let user = user_id;
   let name = user_name;
 
+  let numLikes;
+  dbCountLikes.countLikes(idFromURL, function(err, likerows) {
+    numLikes = likerows[0].count;
+  });
+
   dbSingleQuery.singleResource(idFromURL, function(err, rows) {
 
-  console.log("rows is: ", rows);
     let templateVars = {
       user,
       name,
-      rows
-      // resource_id
+      rows,
+      numLikes
     };
     res.render('resource_single.ejs', templateVars);
   })
@@ -415,15 +421,13 @@ app.post('/users/me', (req, res) => {
 app.post('/likes', (req, res) => {
   let user_id = req.session.user_id;
 
-      console.log("something unique", req.body.resource_id);
-
   // if (!user) {
   //   res.redirect('/login');
   // } else {
     // This inserts into db
     let likeInfo = { resource_id: req.body.resource_id, user_id: user_id };
     dbLikeFunction.likeFunction(likeInfo, function(err, rows) {
-      res.redirect('/resources');
+      res.redirect('/resources/' + req.body.resource_id);
     });
 
   // }
