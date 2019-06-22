@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
 
  <!-- This is for the icon image library -->
@@ -46,18 +45,41 @@
               <i class="far fa-star"></i>
               <i class="far fa-comment-dots"></i>
             </p>
+
+
             <!-- <form id="send-tweet" method="POST" action="/tweets/"> -->
               <textarea name="text" placeholder="What opinion about this resource do you want the world to know?"></textarea>
               <!-- <p class="tweetExceed"> Text must not exceed 140 characters </p> -->
               <input type="submit" value="Tweet">
               <!-- <span class="counter">140</span> -->
-            </form>
-
-
-
-
-
         </form>
+
+        <form action="/tags" method="POST">
+          <input type="hidden" name="resource_id" value="<%= rows[0].resource_id %>">
+          <input class="form-control" type="text" name="tag" placeholder="Please provide a tag" style="width: 300px; margin: 1em" maxlength="255" >
+          <button type="submit" class="btn btn-primary">Add Tag</button>
+        </form>
+
+        <form action="/comments" method="POST">
+          <input type="hidden" name="resource_id" value="<%= rows[0].resource_id %>">
+          <textarea name="comment" id="" placeholder="Comment on your resource" maxlength="1000" required></textarea>
+          <button type="submit" class="btn btn-primary">Add Comment</button>
+        </form>
+
+        <form action="/ratings" method="POST">
+          <input type="hidden" name="resource_id" value="<%= rows[0].resource_id %>">
+          <select name="rating" id="rating">
+            <optgroup label="Rating">
+              <option value="0">Choose your rating</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </optgroup>
+          </select>
+        </form>
+
       </div>
   <!-- Loading scripts -->
   <script src="/vendor/jquery-3.0.0.js"></script>

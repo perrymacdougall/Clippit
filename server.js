@@ -22,6 +22,8 @@ const dbSearch = require('./public/scripts/search.js');
 const dbUpdateUser = require('./public/scripts/updateUser.js');
 const dbLookupUserByID = require('./public/scripts/lookupUserByID.js');
 const dbAddTag = require('./public/scripts/addTag.js');
+const dbAddComment = require('./public/scripts/addComment.js');
+const dbAddRating = require('./public/scripts/addRating.js');
 
 const cookieSession = require('cookie-session');
 app.use(
@@ -317,7 +319,7 @@ app.post('/resources/new', (req, res) => {
   const title = req.body.title;
   const URL = req.body.URL;
   const description = req.body.description;
-  const tag = req.body.tag; 
+  const tag = req.body.tag;
   if (!user) {
     res.redirect('/login');
   } else {
@@ -331,10 +333,10 @@ app.post('/resources/new', (req, res) => {
     })
     .then((resource_id) => {
       let tagInfo = {resource_id: resource_id[0], tag: tag};
-      dbAddTag.addTag(tagInfo, function(err, info) {        
+      dbAddTag.addTag(tagInfo, function(err, info) {
         res.redirect('/resources/me');
       })
-    }) 
+    })
   }
 })
 
@@ -427,7 +429,44 @@ app.post('/likes', (req, res) => {
   // }
 });
 
+app.post('/tags', (req, res) => {
 
+  let tagContent = req.body.tag;
+  let tagResourceId = req.body.resource_id;
+
+  let tagInfo = { tag: tagContent, resource_id: tagResourceId };
+
+  dbAddTag.addTag(tagInfo, function(err, info) {
+    res.redirect('/resources/' + tagResourceId);
+  })
+
+});
+
+app.post('/comments', (req, res) => {
+  let user_id = req.session.user_id;
+  let commentContent = req.body.comment;
+  let commentResourceId = req.body.resource_id;
+
+  let commentInfo = { comment: commentContent, user_id: user_id, resource_id: commentResourceId };
+
+  dbAddComment.addComment(commentInfo, function(err, info) {
+    res.redirect('/resources/' + commentResourceId);
+  })
+
+});
+
+app.post('/ratings', (req, res) => {
+  let user_id = req.session.user_id;
+  let rating = req.body.rating;
+  let ratingResourceId = req.body.resource_id;
+
+  let ratingInfo = { rating: rating, user_id: user_id, resource_id: ratingResourceId };
+
+  dbAddRating.addRating(ratingInfo, function(err, info) {
+    res.redirect('/resources/' + ratingResourceId);
+  })
+
+});
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);

@@ -1,17 +1,25 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 body {
   background-color: #EEE;
-  margin: 5em;
 }
 
 h1 {
   color: #244751;
 }
 
+.logo {
+  text-align: center;
+}
+
 .resource {
-  margin: auto;
   border: 1px solid black;
-  display: inline-block;
-  width: 60%;
   vertical-align: top;
 }
 
@@ -22,5 +30,15 @@ h1 {
 
 .fa-heart, .fa-star, .fa-comment-dots {
   cursor: pointer;
-  padding: 5px;
+}
+
+#nav-bar {
+  position: fixed;
+  top: 0;
+  padding: 0 2em 0 2em;
+  height: 100px;
+  width: 100%;
+  background-color: #83b6bd;
+  color: #0c2e31;
+  z-index: 1;
 }
