@@ -55,9 +55,14 @@ app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
   debug: true,
+  force: true,
   outputStyle: 'expanded'
 }));
+
+// Routes for scripts
 app.use(express.static("public"));
+app.use("/scripts", express.static(__dirname + "public"));
+app.use("/vendor", express.static(__dirname + "public"));
 
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
@@ -405,14 +410,17 @@ app.post('/users/me', (req, res) => {
   }
 })
 
-app.get('/likes', (req, res) => {
-  let incomingLike = req.session.user_id;
+app.post('/likes', (req, res) => {
+  let user_id = req.session.user_id;
+
+      console.log("something unique", req.body.resource_id);
 
   // if (!user) {
   //   res.redirect('/login');
   // } else {
-
-    dbLikeFunction.likeFunction(function(err, rows) {
+    // This inserts into db
+    let likeInfo = { resource_id: req.body.resource_id, user_id: user_id };
+    dbLikeFunction.likeFunction(likeInfo, function(err, rows) {
       res.redirect('/resources');
     });
 
