@@ -21,6 +21,7 @@ const dbLikeFunction = require('./public/scripts/likeFunction.js');
 const dbSearch = require('./public/scripts/search.js');
 const dbUpdateUser = require('./public/scripts/updateUser.js');
 const dbLookupUserByID = require('./public/scripts/lookupUserByID.js');
+const dbAddTag = require('./public/scripts/addTag.js');
 
 const cookieSession = require('cookie-session');
 app.use(
@@ -311,20 +312,24 @@ app.post('/resources/new', (req, res) => {
   const title = req.body.title;
   const URL = req.body.URL;
   const description = req.body.description;
+  const tag = req.body.tag; 
   if (!user) {
     res.redirect('/login');
   } else {
-    console.log('user, title, URL, description', user, title, URL, description);
     knex('resources')
+    .returning('resource_id')
     .insert({
       title: title,
       url: URL,
       description: description,
       user_id: user
     })
-    .then(() => {
-      res.redirect('/resources/me');
-    })
+    .then((resource_id) => {
+      let tagInfo = {resource_id: resource_id[0], tag: tag};
+      dbAddTag.addTag(tagInfo, function(err, info) {        
+        res.redirect('/resources/me');
+      })
+    }) 
   }
 })
 
