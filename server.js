@@ -19,6 +19,8 @@ const dbSingleQuery = require('./public/scripts/singleResource.js');
 
 const dbLikeFunction = require('./public/scripts/likeFunction.js');
 const dbSearch = require('./public/scripts/search.js');
+const dbUpdateUser = require('./public/scripts/updateUser.js');
+const dbLookupUserByID = require('./public/scripts/lookupUserByID.js');
 
 const cookieSession = require('cookie-session');
 app.use(
@@ -236,8 +238,8 @@ app.get('/resources', (req, res) => {
       console.log("rows", rows);
       res.render('resources.ejs', templateVars);
       console.log("rows.length:", rows.length)
-    }) 
-  } else { 
+    })
+  } else {
     dbQueries.resources(function(err, rows) {
       //if they are logged in they can continue:
       let templateVars = {
@@ -367,31 +369,35 @@ app.get('/users/me', (req, res) => {
   if (!user) {
     res.redirect('/login');
   } else {
-    let templateVars = { user, name };
-    res.render('users_me', templateVars);
+    dbLookupUserByID.lookupUserByID(user, function(err, rows) {
+      let templateVars = {
+        user,
+        name,
+        email: rows[0].email
+      };
+      res.render('users_me', templateVars);
+    })
   }
 });
 
 app.post('/users/me', (req, res) => {
   let user = req.session.user_id;
-  const name = req.body.name;
-  const email = req.body.email;
-  const password = req.body.password;
+  const userInfo =
+    {
+      user_id: user,
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password
+    };
 
   if (!user) {
     res.redirect('/login');
-  } else { //TODO ADD DATABASE CALLS
-    // knex('resources')
-    // .insert({
-    //   title: title,
-    //   url: URL,
-    //   description: description,
-    //   user_id: user
-    // })
-    // .then(() => {
-    //   res.redirect('/resources/me');
-    // })
-    res.redirect('/resources/me');
+  } else {
+    //maybe add better password checking later
+    dbUpdateUser.updateUser(userInfo, function(err, info) {
+      req.session.user_name = userInfo.name;
+      res.redirect('/resources/me');
+    })
   }
 })
 
