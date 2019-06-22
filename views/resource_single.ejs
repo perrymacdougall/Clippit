@@ -64,7 +64,21 @@
         <form action="/comments" method="POST">
           <input type="hidden" name="resource_id" value="<%= rows[0].resource_id %>">
           <textarea name="comment" id="" placeholder="Comment on your resource" maxlength="1000" required></textarea>
-          <button type="submit" class="btn btn-primary">Add Tag</button>
+          <button type="submit" class="btn btn-primary">Add Comment</button>
+        </form>
+
+        <form action="/ratings" method="POST">
+          <input type="hidden" name="resource_id" value="<%= rows[0].resource_id %>">
+          <select name="rating" id="rating">
+            <optgroup label="Rating">
+              <option value="0">Choose your rating</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </optgroup>
+          </select>
         </form>
 
       </div>

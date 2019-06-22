@@ -22,7 +22,8 @@ const dbSearch = require('./public/scripts/search.js');
 const dbUpdateUser = require('./public/scripts/updateUser.js');
 const dbLookupUserByID = require('./public/scripts/lookupUserByID.js');
 const dbAddTag = require('./public/scripts/addTag.js');
-const dbAddComment = require('./public/scripts/addComment.js')
+const dbAddComment = require('./public/scripts/addComment.js');
+const dbAddRating = require('./public/scripts/addRating.js');
 
 const cookieSession = require('cookie-session');
 app.use(
@@ -450,6 +451,19 @@ app.post('/comments', (req, res) => {
 
   dbAddComment.addComment(commentInfo, function(err, info) {
     res.redirect('/resources/' + commentResourceId);
+  })
+
+});
+
+app.post('/ratings', (req, res) => {
+  let user_id = req.session.user_id;
+  let rating = req.body.rating;
+  let ratingResourceId = req.body.resource_id;
+
+  let ratingInfo = { rating: rating, user_id: user_id, resource_id: ratingResourceId };
+
+  dbAddRating.addRating(ratingInfo, function(err, info) {
+    res.redirect('/resources/' + ratingResourceId);
   })
 
 });
