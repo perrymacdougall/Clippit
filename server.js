@@ -317,7 +317,7 @@ app.post('/resources/new', (req, res) => {
   const title = req.body.title;
   const URL = req.body.URL;
   const description = req.body.description;
-  const tag = req.body.tag; 
+  const tag = req.body.tag;
   if (!user) {
     res.redirect('/login');
   } else {
@@ -331,10 +331,10 @@ app.post('/resources/new', (req, res) => {
     })
     .then((resource_id) => {
       let tagInfo = {resource_id: resource_id[0], tag: tag};
-      dbAddTag.addTag(tagInfo, function(err, info) {        
+      dbAddTag.addTag(tagInfo, function(err, info) {
         res.redirect('/resources/me');
       })
-    }) 
+    })
   }
 })
 
@@ -425,6 +425,21 @@ app.post('/likes', (req, res) => {
     });
 
   // }
+});
+
+app.post('/tags', (req, res) => {
+
+  let tagContent = req.body.tag;
+  let tagResourceId = req.body.resource_id;
+
+  let tagInfo = { tag: tagContent, resource_id: tagResourceId };
+
+  dbAddTag.addTag(tagInfo, function(err, info) {
+    res.redirect('/resources/' + tagResourceId);
+  })
+
+
+
 });
 
 
