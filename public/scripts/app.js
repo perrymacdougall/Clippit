@@ -23,12 +23,23 @@ $(document).ready(function() {
       console.log('I have sent a like to the db')
     );
 
-    // $.post('/likes', { resource_id }),
-    //   function(result){
-    //     console.log("Success");
-    //   }
-
   });
+
+  //jQuery call for ratings
+  $('#rating').on('change', function() {
+    let firstStep = window.location.pathname;
+    let resource_id = firstStep.replace(/\/resources\//g, "")
+    console.log("Event fired");
+
+    $.ajax({
+      method: "POST",
+      url:"/ratings",
+      data: { resource_id: resource_id,
+              rating: $('#rating option:selected').text()
+            }
+    })
+
+  })
 
 });
 
