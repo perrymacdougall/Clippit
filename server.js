@@ -26,7 +26,7 @@ const dbAddComment = require('./public/scripts/addComment.js');
 const dbAddRating = require('./public/scripts/addRating.js');
 const dbCountLikes = require('./public/scripts/countLikes.js');
 const dbfetchComments = require('./public/scripts/fetchComments.js');
-
+const dbShowTags = require('./public/scripts/showTags.js');
 
 const cookieSession = require('cookie-session');
 app.use(
@@ -253,12 +253,19 @@ app.get('/resources', (req, res) => {
   } else {
     // show all resources
     dbQueries.resources(function(err, result) {
-      let templateVars = {
-        user,
-        name,
-        rows: result.rows
-      };
-      res.render('resources.ejs', templateVars);
+
+      dbShowTags.showTags(function(err, tagList) {
+console.log("lookie tags", tagList);
+        let templateVars = {
+            user,
+            name,
+            rows: result.rows,
+            tags: tagList
+          };
+          res.render('resources.ejs', templateVars);
+
+      });
+
     });
   }
 });
@@ -372,7 +379,7 @@ app.get('/resources/:id', (req, res) => {
       rows,
       numLikes,
       comments
-    };  
+    };
     res.render('resource_single.ejs', templateVars);
   })
 });
