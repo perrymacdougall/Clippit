@@ -25,6 +25,7 @@ const dbAddTag = require('./public/scripts/addTag.js');
 const dbAddComment = require('./public/scripts/addComment.js');
 const dbAddRating = require('./public/scripts/addRating.js');
 const dbCountLikes = require('./public/scripts/countLikes.js');
+const dbfetchComments = require('./public/scripts/fetchComments.js');
 
 
 const cookieSession = require('cookie-session');
@@ -359,14 +360,21 @@ app.get('/resources/:id', (req, res) => {
     numLikes = likerows[0].count;
   });
 
-  dbSingleQuery.singleResource(idFromURL, function(err, rows) {
+  let comments;
+  dbfetchComments.fetchComments(idFromURL, function(err, resourceComments){
+    comments = resourceComments;
+    console.log("comments is: ", comments)
+  });
 
+
+  dbSingleQuery.singleResource(idFromURL, function(err, rows) {
     let templateVars = {
       user,
       name,
       rows,
-      numLikes
-    };
+      numLikes,
+      comments
+    };  
     res.render('resource_single.ejs', templateVars);
   })
 });
