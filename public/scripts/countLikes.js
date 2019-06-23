@@ -16,7 +16,6 @@ module.exports = {
         console.log(err);
         cb(err);
       } else {
-        //console.log("NUM LIKES",rows);
         cb(null, rows);
       }
     })
