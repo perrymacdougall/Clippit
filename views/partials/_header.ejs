@@ -31,45 +31,52 @@
   <% if (locals.user) { %>
 
   <div>
-    <form action="/resources/me" method="GET">
-      <span class="float-left">
-        <button type="submit" class="btn btn-primary">My Resources</button>
-      </span>
-    </form>
 
-    <form action="/resources/new" method="GET">
-      <span class="float-left">
-        <button type="submit" class="btn btn-primary">Add Resources</button>
-      </span>
-    </form>
+    <h3 class="text-right">Hello <%=name%> !</h3>
 
-
-    <form class="form-inline right-side" action="/resources" method="GET">
-      <div class="form-group mb-2">
-        <label for="search"></label>
-        <input class="form-control no-margin" type="text" name="search" placeholder="Search..." style="width: 300px;">
-      </div>
-      <div class="form-group mb-2">
-        <button type="submit" class="btn btn-primary">Search</button>
-      </div>
-    </form>
   </div>
 
   <div class="make-flex">
-    <h3 class="make-inline">Hello <%=name%> !</h3>
-      <div>
-        <form class="make-inline" action="/users/me" method="GET">
-          <!-- <span class="float-left"> -->
-            <button type="submit" class="btn btn-primary">Update Profile</button>
-          <!-- </span> -->
-        </form>
+    <div>
+      <form class="make-inline" action="/resources" method="GET">
+          <button type="submit" class="btn btn-primary small-button"><i class="fas fa-home"></i></button>
+      </form>
 
-        <form class="make-inline" action="/logout" method="POST">
-            <!-- <span class="float-left"> -->
-              <button type="submit" class="btn btn-primary">Logout</button>
-            <!-- </span> -->
-        </form>
-      </div>
+      <form class="make-inline" action="/resources/me" method="GET">
+          <button type="submit" class="btn btn-primary small-button">My Resources</button>
+      </form>
+
+      <form class="make-inline" action="/resources/new" method="GET">
+          <button type="submit" class="btn btn-primary small-button">Add Resources</button>
+      </form>
+    </div>
+
+    <div>
+      <form class="form-inline right-side" action="/resources" method="GET">
+        <div class="form-group mb-2">
+          <label for="search"></label>
+          <input class="form-control no-margin" type="text" name="search" placeholder="Search..." style="width: 300px;">
+        </div>
+        <div class="form-group mb-2">
+          <button type="submit" class="btn btn-primary small-button"><i class="fas fa-search"></i></button>
+        </div>
+      </form>
+    </div>
+
+    <div>
+      <form class="make-inline" action="/users/me" method="GET">
+        <!-- <span class="float-left"> -->
+          <button type="submit" class="btn btn-primary small-button">Update Profile</button>
+        <!-- </span> -->
+      </form>
+
+
+      <form class="make-inline" action="/logout" method="POST">
+          <!-- <span class="float-left"> -->
+            <button type="submit" class="btn btn-primary small-button">Logout</button>
+          <!-- </span> -->
+      </form>
+    </div>
   </div>
 
 
