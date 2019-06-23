@@ -16,7 +16,6 @@ module.exports = {
         console.log(err);
         cb(err);
       } else {
-        console.log(rows);
         cb(null, rows);
       }
     })
