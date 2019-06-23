@@ -1,3 +1,5 @@
+/* General Layout */
+
 html {
   box-sizing: border-box;
 }
@@ -15,45 +17,8 @@ h1 {
     color: #244751;
 }
 
-#clippit-header {
-  font-size: 6em;
-  letter-spacing: -2px;
-  color: darkblue;
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.logo {
-  height: 110px;
-  width: auto;
-  background-color: #bfd8d8;
-  top: -20px;
-  vertical-align: top;
-}
-
-.resource {
-  border: 1px solid black;
-  vertical-align: top;
-}
-
-.title-area {
-  background-color: #22c3e8;
-  height: 75px;
-}
-
-.fa-heart, .fa-star, .fa-comment-dots {
-  cursor: pointer;
-  padding: 10px;
-}
-
-#nav-bar {
-  position: fixed;
-  top: 0;
-  padding: 2em 2em 0 2em;
-  width: 100%;
-  background-color: #bfd8d8;
-  color: #0c2e31;
-  z-index: 1;
+h3 {
+  font-size: 1.5rem;
 }
 
 .make-flex{
@@ -82,6 +47,72 @@ h1 {
   flex-direction: column;
   align-items: flex-start;
 }
+
+
+.container {
+  margin-top: 250px;
+
+.fa-heart, .fa-star, .fa-comment-dots {
+  cursor: pointer;
+  padding: 10px;
+
+}
+
+.small-button {
+  font-size: 0.75rem;
+}
+
+/* Header styles */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-image: linear-gradient(#bfd8d8, #56ab98);
+  color: #0c2e31;
+  z-index: 1;
+}
+
+header > * {
+  padding: 1em 2em 1em 2em;
+}
+
+#clippit-header {
+  font-size: 4em;
+  letter-spacing: -2px;
+  color: darkblue;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.logo {
+  height: 5em;
+  width: auto;
+  /*background-color: #bfd8d8;*/
+  top: -20px;
+  vertical-align: top;
+}
+
+#nav-bar {
+  /*background-color: #bfd8d8;*/
+}
+
+/* Resources Layout */
+.resource {
+  border: 1px solid black;
+  vertical-align: top;
+}
+
+.title-area {
+  background-color: #22c3e8;
+  height: 75px;
+}
+
+.fa-heart, .fa-star, .fa-comment-dots {
+  cursor: pointer;
+  // padding: 5px;
+}
+
+
 
 .resource-card {
   background-color: #dedede;
@@ -126,4 +157,3 @@ h1 {
 .small-button {
   font-size: 0.75rem;
 }
-

@@ -22,40 +22,40 @@
 <body>
 <header>
 
-<nav id="nav-bar">
   <div class="text-center">
     <img class="logo" src="/images/clippit-logo-dark.png" alt="Clippit Logo" />
     <h1 id="clippit-header" class="make-inline"> Clippit </h1>
   </div>
 
   <% if (locals.user) { %>
+  <nav id="nav-bar">
 
-  <div>
-
-    <h3 class="text-right">Hello <%=name%> !</h3>
-
-  </div>
+    <h3 class="text-right">Hello, <%=name%> !</h3>
 
   <div class="make-flex">
     <div>
+      <!-- Home button -->
       <form class="make-inline" action="/resources" method="GET">
           <button type="submit" class="btn btn-primary small-button"><i class="fas fa-home"></i></button>
       </form>
 
+      <!-- My Resources Button -->
       <form class="make-inline" action="/resources/me" method="GET">
           <button type="submit" class="btn btn-primary small-button">My Resources</button>
       </form>
 
+      <!-- Add Resources Button -->
       <form class="make-inline" action="/resources/new" method="GET">
           <button type="submit" class="btn btn-primary small-button">Add Resources</button>
       </form>
     </div>
 
     <div>
+      <!-- Search Button -->
       <form class="form-inline right-side" action="/resources" method="GET">
         <div class="form-group mb-2">
           <label for="search"></label>
-          <input class="form-control no-margin" type="text" name="search" placeholder="Search..." style="width: 300px;">
+          <input class="form-control no-margin" type="text" name="search" placeholder="Search...">
         </div>
         <div class="form-group mb-2">
           <button type="submit" class="btn btn-primary small-button"><i class="fas fa-search"></i></button>
@@ -64,13 +64,14 @@
     </div>
 
     <div>
+      <!-- Update Button -->
       <form class="make-inline" action="/users/me" method="GET">
         <!-- <span class="float-left"> -->
           <button type="submit" class="btn btn-primary small-button">Update Profile</button>
         <!-- </span> -->
       </form>
 
-
+      <!-- Logout Button -->
       <form class="make-inline" action="/logout" method="POST">
           <!-- <span class="float-left"> -->
             <button type="submit" class="btn btn-primary small-button">Logout</button>
@@ -93,12 +94,6 @@
 <strong><a href="/register">Register</a></strong>
 
   <% } %>
-
-
-<br>
-
-
-<br>
 
 </header>
 
