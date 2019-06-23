@@ -16,17 +16,17 @@ h1 {
 }
 
 #clippit-header {
-  font-size: 5em;
+  font-size: 6em;
   letter-spacing: -2px;
   color: darkblue;
-  border-bottom: 2px solid black;
   text-transform: uppercase;
 }
 
 .logo {
   height: 100px;
   width: auto;
-  background-color: #D8BFD8;
+  background-color: #bfd8d8;
+  top: -20px;
 }
 
 .resource {
@@ -48,7 +48,7 @@ h1 {
   top: 0;
   padding: 0 2em 0 2em;
   width: 100%;
-  background-color: #D8BFD8;
+  background-color: #bfd8d8;
   color: #0c2e31;
   z-index: 1;
 }
