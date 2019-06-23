@@ -8,16 +8,27 @@ html {
 
 body {
   background-color: #EEE;
+  font-family: 'Quicksand', sans-serif;
 }
 
 h1 {
     color: #244751;
 }
 
-.logo {
-  text-align: center;
+#clippit-header {
+  font-size: 5em;
+  letter-spacing: -2px;
+  color: darkblue;
+  border-bottom: 2px solid black;
+  text-transform: uppercase;
 }
 
+
+.logo {
+  height: 100px;
+  width: auto;
+  background-color: #D8BFD8;
+}
 
 .resource {
   border: 1px solid black;
@@ -39,7 +50,7 @@ h1 {
   top: 0;
   padding: 0 2em 0 2em;
   width: 100%;
-  background-color: #83b6bd;
+  background-color: #D8BFD8;
   color: #0c2e31;
   z-index: 1;
 }
