@@ -1,50 +1,45 @@
+<title>My Resources</title>
 
-    <% include ./partials/_header %>
-
+<% include ./partials/_header %>
 
 <div class="container">
-  <!-- Add EJS code here -->
-
-
-  <div class="container">
-    <h2>Added Resources</h2>
-
-    <div class="row">
-      <% for(let row in rows) { %>
-        <div class="col-4">
-          <div class="resource-card">
-              <a href="<%= rows[row].url; %>" target="_blank">
-                <h4 class="resource-title">
-                  <%= rows[row].title; %>
-                </h4>
-              </a>
-
-              <div class="resource-description">
-                <%= rows[row].description; %>
-              </div>
-            </div>
+  <h2>Added Resources</h2>
+  <div class="row">
+    <% for(let row in rows) { %>
+    <div class="col-4">
+      <div class="resource-card">
+        <div class="resource-title make-flex make-column">
+          <div>
+            <a href="/resources/<%= rows[row].resource_id %>"><%= rows[row].title; %></a>
+          </div>
+          <a class="small" href="<%= rows[row].url %>" target="blank">Visit Site</a>
         </div>
-      <% } %>
+        <div class="resource-description">
+          <%= rows[row].description; %>
+        </div>
+      </div>
     </div>
+      <% } %>
+  </div>
 
     <h2>Liked Resources</h2>
 
     <div class="row">
       <% for(let likerow in likerows) { %>
-        <div class="col-4">
-          <div class="resource-card">
-            <a href="<%= likerows[likerow].url; %>" target="_blank">
-              <h4 class="resource-title">
-                <%= likerows[likerow].title; %>
-              </h4>
-            </a>
-
-            <div class="resource-description">
-              <%= likerows[likerow].description; %>
+      <div class="col-4">
+        <div class="resource-card">
+          <div class="resource-title make-flex make-column">
+            <div>
+              <a href="/resources/<%= likerows[likerow].resource_id %>"><%= likerows[likerow].title; %></a>
             </div>
+            <a class="small" href="<%= likerows[likerow].url %>" target="blank">Visit Site</a>
+          </div>
+          <div class="resource-description">
+            <%= likerows[likerow].description; %>
           </div>
         </div>
-      <% } %>
+      </div>
+        <% } %>
     </div>
   </div>
 

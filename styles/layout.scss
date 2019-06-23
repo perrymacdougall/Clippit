@@ -21,6 +21,10 @@ h3 {
   font-size: 1.5rem;
 }
 
+h6 {
+  font-size: 0.8rem;
+}
+
 .make-flex{
   display: flex;
   justify-content: space-between;
@@ -44,7 +48,7 @@ h3 {
 }
 
 .wrapper-login {
-  margin-top: 150px;
+  margin-top: 180px;
   padding: 40px;
 }
 
@@ -62,6 +66,10 @@ h3 {
   cursor: pointer;
   padding: 10px;
 
+}
+
+#numLikes {
+  margin: 3px;
 }
 
 .small-button {
@@ -127,7 +135,6 @@ header > * {
   background-color: #D8BFD8;
   min-height: 120px;
   padding: 8px;
-  overflow-y: scroll;
   font-size: 20px;
 }
 
@@ -135,7 +142,6 @@ header > * {
   min-height: 120px;
   padding: 8px;
   font-size: 10px;
-  overflow-y: scroll;
 }
 
 .comments { 
@@ -157,4 +163,8 @@ header > * {
 /* Button Styles */
 .small-button {
   font-size: 0.75rem;
+}
+
+.small-top-margin {
+  margin-top: 10px;
 }

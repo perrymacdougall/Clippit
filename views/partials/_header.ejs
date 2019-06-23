@@ -87,11 +87,19 @@
   <% } else { %>
 
 <!-- Already have an account?  -->
-<strong><a href="/login">Login</a></strong>
+<div class="make-flex">
+  <div class="make-inline">
+    <form class="make-inline" action="/login" method="GET">
+      <button type="submit" class="btn btn-primary small-button">Login</button>
+    </form>
+  
 
-|
 <!-- Not yet a member? -->
-<strong><a href="/register">Register</a></strong>
+  <form class="make-inline" action="/register" method="GET">
+    <button type="submit" class="btn btn-primary small-button">Register</button>
+  </form>
+  </div>
+</div>
 
   <% } %>
 
