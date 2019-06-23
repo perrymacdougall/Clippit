@@ -1,53 +1,42 @@
-        <% include ./partials/_header %>
-
-
+<title>Resources</title>
+<% include ./partials/_header %>
   <!-- Add EJS code here -->
     <div class="container">
+      <h2>Resources</h2>
       <div class="row">
-        <h2>Resources</h2>
-      </div>
-      <div class="row">
-      <% for(let row in rows) { %>
-      <div class="col-4">
-
-          <div class="resource">
-            <div class="title-area">
-              <h5>
-                <a href="/resources/<%= rows[row].resource_id %>">
-                  <%= rows[row].title; %>
-                </a>
-              </h5>
-              <a href="<%= rows[row].url %>" target="blank">
-                Visit Site
-              </a>
+        <% for(let row in rows) { %>
+        <div class="col-4">
+          <div class="resource-card">
+            <div class="resource-title make-flex make-column">
+              <div>
+                <a href="/resources/<%= rows[row].resource_id %>"><%= rows[row].title; %></a>
+              </div>  
+              <a class="small" href="<%= rows[row].url %>" target="blank">Visit Site</a>
             </div>
-            <p>
-              <% if(rows[row].description) { %>
-                <%= rows[row].description.substring(0, 90); %>
-              <% } else { %>
-                <%= rows[row].description %>
-              <% } %>
-                ...
-              <a href="/resources/<%= rows[row].resource_id %>">read more</a>
-            </p>
-            <p>
-              <i class="far fa-heart"></i> <%= rows[row].numlikes; %>
-              <i class="far fa-star"></i> <%= rows[row].avgrating; %>
-              <br>
-              <%= tags[rows[row].resource_id]; %>
-            </p>
+            <div class="resource-description  make-flex make-column">
+              <div>
+                <% if(rows[row].description) { %>
+                  <%= rows[row].description.substring(0, 90); %>
+                <% } else { %>
+                  <%= rows[row].description %>
+                <% } %>
+                  ...
+                <a href="/resources/<%= rows[row].resource_id %>">read more</a>
+              </div>
+              <h6>Categories: <%= tags[rows[row].resource_id]; %></h6>
+            </div>     
+            <div>
+                <i class="far fa-heart"></i> <%= rows[row].numlikes; %>
+                <i class="far fa-star"></i> <%= rows[row].avgrating; %>
+                <br>
+                
+            </div>
           </div>
-        </a>
+        </div>
+            <% } %>
       </div>
-        <% } %>
-      </div>
+
 
     </div>
-
 </body>
-
-
-
-
-
 </html>
