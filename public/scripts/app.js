@@ -41,25 +41,19 @@ $(document).ready(function() {
 
   })
 
+$('.fa-star').on('click', function () {
+  event.preventDefault();
+  $('.rating-dropdown').focus();
+});
+
+$('.fa-comment-dots').on('click', function () {
+  event.preventDefault();
+  $('#add-comment').focus();
+});
+
+
 });
 
 
 
-
-
-
-
-
-
-
-
-// $(() => {
-//   $.ajax({
-//     method: "GET",
-//     url: "/api/users"
-//   }).done((users) => {
-//     for(user of users) {
-//       $("<div>").text(user.name).appendTo($("body"));
-//     }
-//   });
-// });
+  

@@ -43,6 +43,7 @@ h1 {
 
 .fa-heart, .fa-star, .fa-comment-dots {
   cursor: pointer;
+  padding: 10px;
 }
 
 #nav-bar {
@@ -92,17 +93,34 @@ h1 {
 .resource-title {
   margin: 0;
   background-color: #D8BFD8;
-  height: 120px;
+  min-height: 120px;
   padding: 8px;
   overflow-y: scroll;
   font-size: 20px;
 }
 
 .resource-description {
-  height: 120px;
+  min-height: 120px;
   padding: 8px;
   font-size: 10px;
   overflow-y: scroll;
+}
+
+
+.comments {
+  padding: 0 20px;
+}
+
+.comment-card {
+  border-radius: 8px;
+}
+
+.comment-card-body {
+  padding: 5px;
+}
+
+.icons {
+  font-size: 20px;
 }
 
 /* Button Styles */
