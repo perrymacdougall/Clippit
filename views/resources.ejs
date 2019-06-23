@@ -22,7 +22,12 @@
               </a>
             </div>
             <p>
-              <%= rows[row].description.substring(0, 90); %>...
+              <% if(rows[row].description) { %>
+                <%= rows[row].description.substring(0, 90); %>
+              <% } else { %>
+                <%= rows[row].description %>
+              <% } %>
+                ...
               <a href="/resources/<%= rows[row].resource_id %>">read more</a>
             </p>
             <p>
