@@ -15,80 +15,91 @@
   <title>Clippit</title>
 </head>
 
-<header>
-
-        <% include ./partials/_header %>
-
-</header>
-
-
 <body>
-    <!-- Add EJS code here -->
+  <header>
+    <% include ./partials/_header %>
+  </header>
 
+  <div class="container" style="margin-top: 160px;">
+    <div class="row">
+      <div class="col-8 offset-2">
+        <h2>Resource</h2>
+        
+        <div class="resource-card">
+          <h2 class="resource-title">
+            <%= rows[0].title; %>
+          </h2>
 
-
-       <h2>Resource</h2>
-       <div class="resource">
-
-       <h2>Resource: <%= rows[0].title; %></h2>
-
-        <form action="/resource/:id" method="GET">
-            <div class="title-area">
-              <h4><%= rows[0].title; %></h4>
-            </div>
-            <p><%= rows[0].description; %></p>
-            <a href="<%= rows[0].url; %>" target="_blank"><%= rows[0].title; %></a>
-
-
-            <p>
+          <div class="resource-description">
+            <%= rows[0].description; %>
+            <br>
+            <p class="icons">
               <i class="far fa-heart"><span id="numLikes"><%= numLikes %><span></i>
               <i class="far fa-star"></i>
               <i class="far fa-comment-dots"></i>
             </p>
 
-
-            <!-- <form id="send-tweet" method="POST" action="/tweets/"> -->
-              <textarea name="text" placeholder="What opinion about this resource do you want the world to know?"></textarea>
-              <!-- <p class="tweetExceed"> Text must not exceed 140 characters </p> -->
-              <input type="submit" value="Tweet">
-              <!-- <span class="counter">140</span> -->
-        </form>
-
-        <form action="/tags" method="POST">
-          <input type="hidden" name="resource_id" value="<%= rows[0].resource_id %>">
-          <input class="form-control" type="text" name="tag" placeholder="Please provide a tag" style="width: 300px; margin: 1em" maxlength="255" >
-          <button type="submit" class="btn btn-primary">Add Tag</button>
-        </form>
-
-        <form action="/comments" method="POST">
-          <input type="hidden" name="resource_id" value="<%= rows[0].resource_id %>">
-          <textarea name="comment" id="" placeholder="Comment on your resource" maxlength="1000" required></textarea>
-          <button type="submit" class="btn btn-primary">Add Comment</button>
-        </form>
-
-        <form action="/ratings" method="POST">
-          <input type="hidden" name="resource_id" value="<%= rows[0].resource_id %>">
-          <select name="rating" id="rating">
-            <optgroup label="Rating">
-              <option value="0">Choose your rating</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </optgroup>
-          </select>
-        </form>
-
-        <div class="comments"> 
-          <% for (let commentId in comments) { %>
-            <div>
-              <%= comments[commentId].comment %> by 
-              <%= comments[commentId].name %>
+            <div class="row">
+              <div class="col">
+                <form action="/tags" method="POST" class="form-inline">
+                  <input type="hidden" name="resource_id" value="<%= rows[0].resource_id %>">
+                  <div class="form-group">
+                    <input class="form-control" type="text" name="tag" placeholder="Please provide a tag">
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Add Tag</button>
+                  </div>
+                </form>
+              </div>
+              <div class="col">
+                <form action="/ratings" method="POST">
+                  <input type="hidden" name="resource_id" value="<%= rows[0].resource_id %>">
+                  <div class="form-group">
+                    <select name="rating" id="rating" class="form-control rating-dropdown">
+                      <optgroup label="Rating">
+                        <option value="0">Choose your rating</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </optgroup>
+                    </select>
+                  </div>
+                </form>
+              </div>
             </div>
-          <% } %>
+
+            <div class="comments">
+              <% for (let commentId in comments) { %>
+                <div class="card comment-card">
+                  <div class="card-body comment-card-body">
+                    <p class="card-title comment-card-title">
+                      <%= comments[commentId].comment %>
+                    </p>
+                    <div class="card-text comment-card-text">
+                      <em>by <%= comments[commentId].name %></em>
+                    </div>
+                  </div>
+                </div>
+                <br>
+              <% } %>
+
+              <form action="/comments" method="POST">
+                <input type="hidden" name="resource_id" value="<%= rows[0].resource_id %>">
+                <div class="form-group">
+                  <textarea name="comment" id="add-comment" placeholder="What is your opinion about this resource?" maxlength="1000" required
+                    class="form-control"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Comment</button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
+
   <!-- Loading scripts -->
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script src="/scripts/app.js"></script>
