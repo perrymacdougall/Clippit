@@ -32,6 +32,15 @@ $(document).ready(function() {
 
   })
 
+$('.fa-star').on('click', function () {
+  event.preventDefault();
+  $('.rating-dropdown').focus();
+});
+
+$('.fa-comment-dots').on('click', function () {
+  event.preventDefault();
+  $('#add-comment').focus();
 });
 
 
+});

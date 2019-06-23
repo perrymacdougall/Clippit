@@ -20,13 +20,15 @@ h1 {
   letter-spacing: -2px;
   color: darkblue;
   text-transform: uppercase;
+  margin: 0;
 }
 
 .logo {
-  height: 100px;
+  height: 110px;
   width: auto;
   background-color: #bfd8d8;
   top: -20px;
+  vertical-align: top;
 }
 
 .resource {
@@ -41,12 +43,13 @@ h1 {
 
 .fa-heart, .fa-star, .fa-comment-dots {
   cursor: pointer;
+  padding: 10px;
 }
 
 #nav-bar {
   position: fixed;
   top: 0;
-  padding: 0 2em 0 2em;
+  padding: 2em 2em 0 2em;
   width: 100%;
   background-color: #bfd8d8;
   color: #0c2e31;
@@ -71,7 +74,7 @@ h1 {
 }
 
 .wrapper {
-  margin-top: 125px;
+  margin-top: 200px;
   padding: 40px;
 }
 
@@ -90,15 +93,37 @@ h1 {
 .resource-title {
   margin: 0;
   background-color: #D8BFD8;
-  height: 120px;
+  min-height: 120px;
   padding: 8px;
   overflow-y: scroll;
   font-size: 20px;
 }
 
 .resource-description {
-  height: 120px;
+  min-height: 120px;
   padding: 8px;
   font-size: 10px;
   overflow-y: scroll;
+}
+
+
+.comments {
+  padding: 0 20px;
+}
+
+.comment-card {
+  border-radius: 8px;
+}
+
+.comment-card-body {
+  padding: 5px;
+}
+
+.icons {
+  font-size: 20px;
+}
+
+/* Button Styles */
+.small-button {
+  font-size: 0.75rem;
 }
