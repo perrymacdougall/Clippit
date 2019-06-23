@@ -77,78 +77,6 @@ app.get("/", (req, res) => {
   res.redirect('resources');
 });
 
-// DRY function to look up if email exists ---------------------------------------------------------
-const doesUserExist = email => {
-  for (let userId in users) {
-    let user = users[userId];
-
-    console.log(user.email)
-
-    if (user.email.toLowerCase() === email.toLowerCase()) {
-      return true;
-    }
-  }
-  return false;
-}
-
-// DRY funciton to look if email is already registered -----------------------------------------
-const findUserByEmail = email => {
-  for (let userId in users) {
-    let user = users[userId];
-
-    console.log(user.email)
-
-    if (user.email.toLowerCase() === email.toLowerCase()) {
-      return user;
-    }
-  }
-  return null;
-}
-
-// This generates the randoms string for both the tiny app and userID---------------------------
-function generateRandomString() {
-  return Math.floor((1 + Math.random()) * 0x10000000).toString(36);
-}
-
-// Registration page ----------------------------------------------------------------------------
-// app.get('/register', (req, res) => {
-//   res.render('register.ejs')
-// });
-
-// app.post('/register', (req, res) => {
-//   const email = req.body.email;
-//   const password = req.body.password;
-
-//   if (email === '' || password === '') {
-//     res.status(400);
-//     res.send('Status code error ;p Email or Password can not be empty');
-//   } else if (doesUserExist(email)) {
-//     res.status(400);
-//     res.send('Status code error ;p User already exists');
-//   } else {
-//     // create new user with random id
-//     const id = generateRandomString();
-
-
-//     const newUser = {
-//       id,
-//       email,
-//       password
-//     };
-
-//     // insert new user to the users object
-//     users[id] = newUser;
-//     // save the user id in a session
-
-
-//     req.session.user_id = id;
-
-//     console.log("id is: ", id)
-//     res.redirect('/resources');
-//   }
-// });
-
-
 app.get('/register', (req, res) => {
   res.render('register.ejs')
 });
@@ -159,38 +87,39 @@ app.post('/register', (req, res) => {
   const name = req.body.name;
 
   if (email === '' || password === '') {
-    res.status(400);
-    res.send('Status code error ;p Email or Password can not be empty');
+    let templateVars = {failMsg:'Email and password are required.'};
+    res.render('login_fail.ejs', templateVars);
 
   } else {
 
     knex.select('id', 'email', 'password').from('users')
-      .where('email', '=', email)
-      .asCallback(function (err, rows) {
-        if (err) {
-          return console.error(err);
-        } else {
+    .where('email', '=', email)
+    .asCallback(function (err, rows) {
+      if (err) {
+        return console.error(err);
+      } else {
 
-          if (rows.length > 0) {
-            res.status(403).send('User already exists, please login')
-          } else if (rows.length == 0) {
+        if (rows.length > 0) {
+          let templateVars = {failMsg:'This user already exists.'};
+          res.render('login_fail.ejs', templateVars);
+        } else if (rows.length == 0) {
 
-            knex('users')
-              .returning("id", "name")
-              .insert({
-                name: name,
-                email: email,
-                password: password
-              })
-              .then((users) => {
+          knex('users')
+            .returning("id", "name")
+            .insert({
+              name: name,
+              email: email,
+              password: password
+            })
+            .then((users) => {
 
-                req.session.user_id = users[0];
-                req.session.user_name = name;
-                res.redirect('/resources');
-              })
-          }
+              req.session.user_id = users[0];
+              req.session.user_name = name;
+              res.redirect('/resources');
+            })
         }
-      })
+      }
+    })
   }
 });
 
@@ -205,7 +134,6 @@ app.post('/login', (req, res) => {
   // Input from user
   const email = req.body.email;
   const typedPassword = req.body.password;
-  console.log(email);
 
   knex.select('id', 'email', 'password', 'name').from('users')
     .where('email', '=', email)
@@ -214,7 +142,8 @@ app.post('/login', (req, res) => {
         return console.error(err);
       } else {
         if (rows.length == 0) {
-          res.status(403).send('User cannot be found');
+          let templateVars = {failMsg:'User was not found.'};
+          res.render('login_fail.ejs', templateVars);
         } else {
           //
           if (typedPassword == rows[0].password) {
@@ -224,7 +153,8 @@ app.post('/login', (req, res) => {
 
             res.redirect('/resources', )
           } else {
-            res.status(403).send('Password incorrect')
+            let templateVars = {failMsg:'Incorrect password.'};
+            res.render('login_fail.ejs', templateVars);
           }
         }
       }
@@ -253,9 +183,9 @@ app.get('/resources', (req, res) => {
   } else {
     // show all resources
     dbQueries.resources(function(err, result) {
-
+      // get associated tags
       dbShowTags.showTags(function(err, tagList) {
-console.log("lookie tags", tagList);
+
         let templateVars = {
             user,
             name,
@@ -278,7 +208,6 @@ app.get('/resources/me', (req, res) => {
   if (!user) {
     res.redirect('/login');
   } else {
-    console.log("user is", user);
 
     knex.select('title', 'description', 'url', 'resource_id')
       .from('resources')
@@ -287,7 +216,6 @@ app.get('/resources/me', (req, res) => {
         if(err) {
           console.log(err);
         } else {
-          console.log(rows);
 
           knex.select('l.like_id', 'r.resource_id', 'r.title', 'r.description', 'r.url')
             .from('likes AS l')
@@ -297,7 +225,6 @@ app.get('/resources/me', (req, res) => {
               if(err) {
                 console.log(err);
               } else {
-                console.log(likerows);
 
                 let templateVars = { user, name, rows, likerows };
                 res.render('resources_me', templateVars);
@@ -368,7 +295,6 @@ app.get('/resources/:id', (req, res) => {
   let comments;
   dbfetchComments.fetchComments(idFromURL, function(err, resourceComments){
     comments = resourceComments;
-    console.log("comments is: ", comments)
   });
 
 
@@ -387,12 +313,8 @@ app.get('/resources/:id', (req, res) => {
 // This is for LOG OUT ---------------------------------------------------------------
 app.post('/logout', (req, res) => {
   req.session = null;
-  // user = null;
   res.redirect('/login');
 });
-
-
-
 
 
 app.get('/users/me', (req, res) => {
@@ -436,16 +358,12 @@ app.post('/users/me', (req, res) => {
 app.post('/likes', (req, res) => {
   let user_id = req.session.user_id;
 
-  // if (!user) {
-  //   res.redirect('/login');
-  // } else {
-    // This inserts into db
-    let likeInfo = { resource_id: req.body.resource_id, user_id: user_id };
-    dbLikeFunction.likeFunction(likeInfo, function(err, rows) {
-      res.redirect('/resources/' + req.body.resource_id);
-    });
+  // This inserts into db
+  let likeInfo = { resource_id: req.body.resource_id, user_id: user_id };
+  dbLikeFunction.likeFunction(likeInfo, function(err, rows) {
+    res.redirect('/resources/' + req.body.resource_id);
+  });
 
-  // }
 });
 
 app.post('/tags', (req, res) => {
