@@ -1,23 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <title>Clippit</title>
-</head>
-
-<header>
 
     <% include ./partials/_header %>
 
-</header>
 
-<body style="padding-top: 120px;">
+<div class="container">
   <!-- Add EJS code here -->
 
 
@@ -33,7 +18,7 @@
                   <%= rows[row].title; %>
                 </h4>
               </a>
-        
+
               <div class="resource-description">
                 <%= rows[row].description; %>
               </div>
@@ -57,19 +42,12 @@
             <div class="resource-description">
               <%= likerows[likerow].description; %>
             </div>
-          </div>        
+          </div>
         </div>
       <% } %>
     </div>
   </div>
 
-
-
-
-  <br>
-  <br>
-  <br>
-  <br>
 </body>
 
 </html>

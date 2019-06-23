@@ -49,6 +49,7 @@ h3 {
 
 .container {
   margin-top: 250px;
+}
 
 .fa-heart, .fa-star, .fa-comment-dots {
   cursor: pointer;
@@ -84,13 +85,8 @@ header > * {
 .logo {
   height: 5em;
   width: auto;
-  /*background-color: #bfd8d8;*/
   top: -20px;
   vertical-align: top;
-}
-
-#nav-bar {
-  /*background-color: #bfd8d8;*/
 }
 
 /* Resources Layout */
