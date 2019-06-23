@@ -8,13 +8,11 @@ const knexLogger = require('knex-logger');
 
 module.exports = {
 
+  // return all resources
+  resources(cb) {
 
-    // Querying all resources from db
-    resources(cb) {
-
-      knex.raw('select r.title, r.description, r.url, r.resource_id, count(l.like_id) as numlikes from resources as r left join likes as l on r.resource_id=l.resource_id group by r.title, r.description, r.url, r.resource_id')
-        .asCallback(cb)
-    },
-
+    knex.raw('SELECT r.title, r.description, r.url, r.resource_id, COUNT(l.like_id) AS numlikes, ROUND(avg(coalesce(rt.rating,0)),1) AS avgrating FROM ratings AS rt RIGHT JOIN resources AS r ON rt.resource_id = r.resource_id LEFT JOIN likes AS l ON r.resource_id=l.resource_id GROUP BY r.title, r.description, r.url, r.resource_id ORDER BY r.title')
+      .asCallback(cb)
+  },
 
 }

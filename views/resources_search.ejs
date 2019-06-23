@@ -1,0 +1,22 @@
+  <% include ./partials/_header %>
+
+
+  <!-- Add EJS code here -->
+  <div class="container" style="margin-top:200px;">
+    <div class="row">
+      <h2>Search Resources for: <%= searchQuery; %></h2>
+    </div>
+
+    <% for(let row in rows) { %>
+     <div class="row">
+        <h5><a href="/resources/<%= rows[row].resource_id %>">
+        <%= rows[row].title; %>
+        </a></h5>
+      </div>
+    <% } %>
+
+  </div>
+
+</body>
+
+</html>
