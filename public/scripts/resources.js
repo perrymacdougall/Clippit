@@ -11,21 +11,8 @@ module.exports = {
 
     // Querying all resources from db
     resources(cb) {
-      // let user = req.session.user_id;
-      // let name = req.session.user_name;
 
-      knex.select('title', 'description', 'url', 'resource_id')
-        .from('resources')
-      //   .asCallback(function(err, rows) {
-      //     if(err) {
-      //       console.log(err);
-      //       cb(err);
-      //     } else {
-      //       console.log(rows);
-      //       cb(null, rows);
-
-      //     }
-      // });
+      knex.raw('select r.title, r.description, r.url, r.resource_id, count(l.like_id) as numlikes from resources as r left join likes as l on r.resource_id=l.resource_id group by r.title, r.description, r.url, r.resource_id')
         .asCallback(cb)
     },
 
