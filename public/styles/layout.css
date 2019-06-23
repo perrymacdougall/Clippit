@@ -16,17 +16,19 @@ h1 {
 }
 
 #clippit-header {
-  font-size: 5em;
+  font-size: 6em;
   letter-spacing: -2px;
   color: darkblue;
-  border-bottom: 2px solid black;
   text-transform: uppercase;
+  margin: 0;
 }
 
 .logo {
-  height: 100px;
+  height: 110px;
   width: auto;
-  background-color: #D8BFD8;
+  background-color: #bfd8d8;
+  top: -20px;
+  vertical-align: top;
 }
 
 .resource {
@@ -47,9 +49,9 @@ h1 {
 #nav-bar {
   position: fixed;
   top: 0;
-  padding: 0 2em 0 2em;
+  padding: 2em 2em 0 2em;
   width: 100%;
-  background-color: #D8BFD8;
+  background-color: #bfd8d8;
   color: #0c2e31;
   z-index: 1;
 }
@@ -72,7 +74,7 @@ h1 {
 }
 
 .wrapper {
-  margin-top: 125px;
+  margin-top: 200px;
   padding: 40px;
 }
 
@@ -104,6 +106,7 @@ h1 {
   overflow-y: scroll;
 }
 
+
 .comments {
   padding: 0 20px;
 }
@@ -118,4 +121,9 @@ h1 {
 
 .icons {
   font-size: 20px;
+}
+
+/* Button Styles */
+.small-button {
+  font-size: 0.75rem;
 }
