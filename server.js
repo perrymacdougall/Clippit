@@ -250,12 +250,14 @@ app.get('/resources', (req, res) => {
       console.log("rows.length:", rows.length)
     })
   } else {
-    dbQueries.resources(function(err, rows) {
+    dbQueries.resources(function(err, result) {
+
+  
       //if they are logged in they can continue:
       let templateVars = {
         user,
         name,
-        rows
+        rows: result.rows
       };
       res.render('resources.ejs', templateVars);
     });
