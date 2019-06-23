@@ -239,21 +239,19 @@ app.get('/resources', (req, res) => {
   let searchQuery = req.query.search;
 
   if(searchQuery) {
+    //user entered search
     dbSearch.searchResources(searchQuery, function(err, rows) {
       let templateVars = {
         user,
         name,
-        rows
+        rows,
+        searchQuery
       };
-      console.log("rows", rows);
-      res.render('resources.ejs', templateVars);
-      console.log("rows.length:", rows.length)
+      res.render('resources_search.ejs', templateVars);
     })
   } else {
+    // show all resources
     dbQueries.resources(function(err, result) {
-
-  
-      //if they are logged in they can continue:
       let templateVars = {
         user,
         name,
