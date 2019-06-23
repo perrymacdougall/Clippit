@@ -41,7 +41,7 @@
 
 
             <p>
-              <i class="far fa-heart"></i>
+              <i class="far fa-heart"><span id="numLikes"><%= numLikes %><span></i>
               <i class="far fa-star"></i>
               <i class="far fa-comment-dots"></i>
             </p>
@@ -80,6 +80,14 @@
           </select>
         </form>
 
+        <div class="comments"> 
+          <% for (let commentId in comments) { %>
+            <div>
+              <%= comments[commentId].comment %> by 
+              <%= comments[commentId].name %>
+            </div>
+          <% } %>
+        </div>
       </div>
   <!-- Loading scripts -->
   <script src="/vendor/jquery-3.0.0.js"></script>

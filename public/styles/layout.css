@@ -36,9 +36,35 @@ h1 {
   position: fixed;
   top: 0;
   padding: 0 2em 0 2em;
-  height: 100px;
   width: 100%;
   background-color: #83b6bd;
   color: #0c2e31;
   z-index: 1;
+}
+
+.make-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.right-side {
+  justify-content: flex-end;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.make-inline {
+  display: inline-block;
+}
+
+.wrapper {
+  margin-top: 125px;
+  padding: 40px;
+}
+
+.make-column {
+  flex-direction: column;
+  align-items: flex-start;
 }

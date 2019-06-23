@@ -24,6 +24,9 @@ const dbLookupUserByID = require('./public/scripts/lookupUserByID.js');
 const dbAddTag = require('./public/scripts/addTag.js');
 const dbAddComment = require('./public/scripts/addComment.js');
 const dbAddRating = require('./public/scripts/addRating.js');
+const dbCountLikes = require('./public/scripts/countLikes.js');
+const dbfetchComments = require('./public/scripts/fetchComments.js');
+
 
 const cookieSession = require('cookie-session');
 app.use(
@@ -237,23 +240,23 @@ app.get('/resources', (req, res) => {
   let searchQuery = req.query.search;
 
   if(searchQuery) {
+    //user entered search
     dbSearch.searchResources(searchQuery, function(err, rows) {
       let templateVars = {
         user,
         name,
-        rows
+        rows,
+        searchQuery
       };
-      console.log("rows", rows);
-      res.render('resources.ejs', templateVars);
-      console.log("rows.length:", rows.length)
+      res.render('resources_search.ejs', templateVars);
     })
   } else {
-    dbQueries.resources(function(err, rows) {
-      //if they are logged in they can continue:
+    // show all resources
+    dbQueries.resources(function(err, result) {
       let templateVars = {
         user,
         name,
-        rows
+        rows: result.rows
       };
       res.render('resources.ejs', templateVars);
     });
@@ -350,15 +353,26 @@ app.get('/resources/:id', (req, res) => {
   let user = user_id;
   let name = user_name;
 
-  dbSingleQuery.singleResource(idFromURL, function(err, rows) {
+  let numLikes;
+  dbCountLikes.countLikes(idFromURL, function(err, likerows) {
+    numLikes = likerows[0].count;
+  });
 
-  console.log("rows is: ", rows);
+  let comments;
+  dbfetchComments.fetchComments(idFromURL, function(err, resourceComments){
+    comments = resourceComments;
+    console.log("comments is: ", comments)
+  });
+
+
+  dbSingleQuery.singleResource(idFromURL, function(err, rows) {
     let templateVars = {
       user,
       name,
-      rows
-      // resource_id
-    };
+      rows,
+      numLikes,
+      comments
+    };  
     res.render('resource_single.ejs', templateVars);
   })
 });
@@ -415,15 +429,13 @@ app.post('/users/me', (req, res) => {
 app.post('/likes', (req, res) => {
   let user_id = req.session.user_id;
 
-      console.log("something unique", req.body.resource_id);
-
   // if (!user) {
   //   res.redirect('/login');
   // } else {
     // This inserts into db
     let likeInfo = { resource_id: req.body.resource_id, user_id: user_id };
     dbLikeFunction.likeFunction(likeInfo, function(err, rows) {
-      res.redirect('/resources');
+      res.redirect('/resources/' + req.body.resource_id);
     });
 
   // }
