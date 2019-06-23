@@ -20,13 +20,15 @@ h1 {
   letter-spacing: -2px;
   color: darkblue;
   text-transform: uppercase;
+  margin: 0;
 }
 
 .logo {
-  height: 100px;
+  height: 110px;
   width: auto;
   background-color: #bfd8d8;
   top: -20px;
+  vertical-align: top;
 }
 
 .resource {
@@ -46,7 +48,7 @@ h1 {
 #nav-bar {
   position: fixed;
   top: 0;
-  padding: 0 2em 0 2em;
+  padding: 2em 2em 0 2em;
   width: 100%;
   background-color: #bfd8d8;
   color: #0c2e31;
@@ -101,4 +103,9 @@ h1 {
   padding: 8px;
   font-size: 10px;
   overflow-y: scroll;
+}
+
+/* Button Styles */
+.small-button {
+  font-size: 0.75rem;
 }
