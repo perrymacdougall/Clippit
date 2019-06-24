@@ -23,8 +23,10 @@
 <header>
 
   <div class="text-center">
-    <img class="logo" src="/images/clippit-logo-dark.png" alt="Clippit Logo" />
-    <h1 id="clippit-header" class="make-inline"> Clippit </h1>
+    <a href="/resources">
+      <img class="logo" src="/images/clippit-logo-dark.png" alt="Clippit Logo" />
+      <h1 id="clippit-header" class="make-inline"> Clippit </h1>
+    </a>
   </div>
 
   <% if (locals.user) { %>
@@ -92,7 +94,7 @@
     <form class="make-inline" action="/login" method="GET">
       <button type="submit" class="btn btn-primary small-button">Login</button>
     </form>
-  
+
 
 <!-- Not yet a member? -->
   <form class="make-inline" action="/register" method="GET">
