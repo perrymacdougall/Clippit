@@ -87,6 +87,10 @@ header > * {
   padding: 1em 2em 1em 2em;
 }
 
+.text-center a {
+  text-decoration: none;
+}
+
 #clippit-header {
   font-size: 4em;
   letter-spacing: -2px;
