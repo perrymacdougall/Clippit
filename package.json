@@ -18,7 +18,7 @@
     "dotenv": "^2.0.0",
     "ejs": "^2.6.2",
     "express": "^4.13.4",
-    "knex": "^0.17.6",
+    "knex": "^0.19.5",
     "knex-logger": "^0.1.0",
     "morgan": "^1.7.0",
     "node-sass-middleware": "^0.9.8",
